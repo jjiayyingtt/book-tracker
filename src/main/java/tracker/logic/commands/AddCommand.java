@@ -6,6 +6,7 @@ import static tracker.logic.parser.CliSyntax.PREFIX_PROGRESS;
 import static tracker.logic.parser.CliSyntax.PREFIX_NOTE;
 import static tracker.logic.parser.CliSyntax.PREFIX_TITLE;
 import static tracker.logic.parser.CliSyntax.PREFIX_AUTHOR;
+import static tracker.logic.parser.CliSyntax.PREFIX_RATING;
 import static tracker.logic.parser.CliSyntax.PREFIX_TAG;
 
 import tracker.logic.commands.exceptions.CommandException;
@@ -26,6 +27,7 @@ public class AddCommand extends Command {
             + PREFIX_NOTE + "NOTE "
             + PREFIX_CATEGORY + "CATEGORY "
             + PREFIX_PROGRESS + "PROGRESS "
+            + "[" + PREFIX_RATING + "RATING] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_TITLE + "The Curious Incident of the Dog in the Night-Time "

@@ -6,6 +6,7 @@ import static tracker.logic.parser.CliSyntax.PREFIX_PROGRESS;
 import static tracker.logic.parser.CliSyntax.PREFIX_NOTE;
 import static tracker.logic.parser.CliSyntax.PREFIX_TITLE;
 import static tracker.logic.parser.CliSyntax.PREFIX_AUTHOR;
+import static tracker.logic.parser.CliSyntax.PREFIX_RATING;
 import static tracker.logic.parser.CliSyntax.PREFIX_TAG;
 import static tracker.model.Model.PREDICATE_SHOW_ALL_BOOKS;
 
@@ -39,6 +40,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NOTE + "NOTE] "
             + "[" + PREFIX_CATEGORY + "CATEGORY] "
             + "[" + PREFIX_PROGRESS + "PROGRESS] "
+            + "[" + PREFIX_RATING + "RATING] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_AUTHOR + "Mark Haddon "
@@ -46,7 +48,7 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_EDIT_BOOK_SUCCESS = "Edited Book: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_BOOK = "This book already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_BOOK = "This book already exists in the book tracker.";
 
     private final Index index;
     private final EditBookDescriptor editBookDescriptor;
@@ -95,10 +97,11 @@ public class EditCommand extends Command {
         Note updatedNote = editBookDescriptor.getNote().orElse(bookToEdit.getNote());
         Category updatedCategory = editBookDescriptor.getCategory().orElse(bookToEdit.getCategory());
         Progress updatedProgress = editBookDescriptor.getProgress().orElse(bookToEdit.getProgress());
+        Rating updatedRating = editBookDescriptor.getRating().orElse(bookToEdit.getRating());
         Set<Tag> updatedTags = editBookDescriptor.getTags().orElse(bookToEdit.getTags());
 
         return new Book(updatedTitle, updatedAuthor, updatedNote, updatedCategory,
-                updatedProgress, bookToEdit.getDateAdded(), updatedTags);
+                updatedProgress, bookToEdit.getDateAdded(), updatedRating, updatedTags);
     }
 
     @Override
@@ -132,6 +135,7 @@ public class EditCommand extends Command {
         private Note note;
         private Author author;
         private Category category;
+        private Rating rating;
         private Set<Tag> tags;
 
         public EditBookDescriptor() {}
@@ -147,6 +151,7 @@ public class EditCommand extends Command {
             setCategory(toCopy.category);
             setProgress(toCopy.progress);
             setDateAdded(toCopy.dateAdded);
+            setRating(toCopy.rating);
             setTags(toCopy.tags);
         }
 
@@ -155,7 +160,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(title, author, note, category, progress,
-                    dateAdded, tags);
+                    dateAdded, rating, tags);
         }
 
         public void setTitle(Title title) {
@@ -204,6 +209,13 @@ public class EditCommand extends Command {
             return Optional.ofNullable(dateAdded);
         }
 
+        public void setRating(Rating rating) {
+            this.rating = rating;
+        }
+        public Optional<Rating> getRating() {
+            return Optional.ofNullable(rating);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -242,6 +254,7 @@ public class EditCommand extends Command {
                     && e.getCategory().equals(getCategory())
                     && e.getProgress().equals(getProgress())
                     && e.getDateAdded().equals(getDateAdded())
+                    && e.getRating().equals(getRating())
                     && e.getTags().equals(getTags());
         }
 

@@ -26,6 +26,7 @@ class JsonAdaptedBook {
     private final String category;
     private final String progress;
     private final String dateAdded;
+    private final String rating;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
     /**
@@ -35,6 +36,7 @@ class JsonAdaptedBook {
     public JsonAdaptedBook(@JsonProperty("title") String title, @JsonProperty("author") String author,
                            @JsonProperty("note") String note, @JsonProperty("category") String category,
                            @JsonProperty("progress") String progress, @JsonProperty("dateAdded") String dateAdded,
+                           @JsonProperty("rating") String rating,
                            @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
         this.title = title;
         this.author = author;
@@ -42,7 +44,7 @@ class JsonAdaptedBook {
         this.category = category;
         this.progress = progress;
         this.dateAdded = dateAdded;
-
+        this.rating = rating;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -58,6 +60,7 @@ class JsonAdaptedBook {
         category = source.getCategory().value;
         progress = source.getProgress().value;
         dateAdded = source.getDateAdded().value;
+        rating = source.getRating().value;
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -127,12 +130,18 @@ class JsonAdaptedBook {
             throw new IllegalValueException("DateAdded.MESSAGE_CONSTRAINTS");
         }
 
-        final DateAdded modelPriority = new DateAdded(dateAdded);
+        final DateAdded modelDateAdded = new DateAdded(dateAdded);
+
+        if (!Rating.isValidRating(rating)) {
+            throw new IllegalValueException(Rating.MESSAGE_CONSTRAINTS);
+        }
+
+        final Rating modelRating = new Rating(rating);
 
 
         final Set<Tag> modelTags = new HashSet<>(bookTags);
         return new Book(modelName, modelPhone, modelEmail, modelAddress, modelCompany,
-                modelPriority, modelTags);
+                modelDateAdded, modelRating, modelTags);
     }
 
 }

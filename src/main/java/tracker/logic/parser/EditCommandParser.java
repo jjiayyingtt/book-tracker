@@ -29,7 +29,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_NOTE, PREFIX_CATEGORY,
-                        PREFIX_PROGRESS, PREFIX_TAG);
+                        PREFIX_PROGRESS, PREFIX_RATING, PREFIX_TAG);
 
         Index index;
 
@@ -57,6 +57,11 @@ public class EditCommandParser implements Parser<EditCommand> {
             editBookDescriptor.setProgress(ParserUtil.parseProgress(
                     argMultimap.getValue(PREFIX_PROGRESS).get()));
         }
+
+        if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
+            editBookDescriptor.setRating(ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING).get()));
+        }
+
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editBookDescriptor::setTags);
 
         if (!editBookDescriptor.isAnyFieldEdited()) {

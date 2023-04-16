@@ -23,6 +23,7 @@ public class Book implements Comparable<Book> {
     private final Author author;
 
     private final Category category;
+    private final Rating rating;
 
     private final Set<Tag> tags = new HashSet<>();
 
@@ -30,14 +31,15 @@ public class Book implements Comparable<Book> {
      * Every field must be present and not null.
      */
     public Book(Title title, Author author, Note note, Category category, Progress progress, DateAdded dateAdded,
-                  Set<Tag> tags) {
-        requireAllNonNull(title, author, note, category, progress, dateAdded, tags);
+                  Rating rating, Set<Tag> tags) {
+        requireAllNonNull(title, author, note, category, progress, dateAdded, rating, tags);
         this.title = title;
         this.author = author;
         this.note = note;
         this.category = category;
         this.progress = progress;
         this.dateAdded = dateAdded;
+        this.rating = rating;
         this.tags.addAll(tags);
     }
 
@@ -59,6 +61,9 @@ public class Book implements Comparable<Book> {
     public Progress getProgress() { return progress; }
     public DateAdded getDateAdded() {
         return dateAdded;
+    }
+    public Rating getRating() {
+        return rating;
     }
 
     /**
@@ -103,6 +108,7 @@ public class Book implements Comparable<Book> {
                 && otherBook.getCategory().equals(getCategory())
                 && otherBook.getProgress().equals(getProgress())
                 && otherBook.getDateAdded().equals(getDateAdded())
+                && otherBook.getRating().equals(getRating())
                 && otherBook.getTags().equals(getTags());
     }
 
@@ -110,7 +116,7 @@ public class Book implements Comparable<Book> {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(title, author, note, category, progress, dateAdded, tags);
+        return Objects.hash(title, author, note, category, progress, dateAdded, rating, tags);
     }
 
 
@@ -128,7 +134,9 @@ public class Book implements Comparable<Book> {
                 .append("; Progress: ")
                 .append(getProgress())
                 .append("; Date Added: ")
-                .append(getDateAdded());
+                .append(getDateAdded())
+                .append("; Rating: ")
+                .append(getRating());
 
         Set<Tag> tags = getTags();
         if (!tags.isEmpty()) {

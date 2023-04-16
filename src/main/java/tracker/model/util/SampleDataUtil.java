@@ -6,13 +6,7 @@ import java.util.stream.Collectors;
 
 import tracker.model.BookTracker;
 import tracker.model.ReadOnlyBookTracker;
-import tracker.model.book.Note;
-import tracker.model.book.Author;
-import tracker.model.book.DateAdded;
-import tracker.model.book.Title;
-import tracker.model.book.Book;
-import tracker.model.book.Progress;
-import tracker.model.book.Category;
+import tracker.model.book.*;
 import tracker.model.tag.Tag;
 
 /**
@@ -23,7 +17,7 @@ public class SampleDataUtil {
         return new Book[] {
             new Book(new Title("Book"), new Author("Me"), new Note("masterpiece!"),
                 new Category("READ"),
-                    new Progress("100"), new DateAdded("2020/12/23"),
+                    new Progress("100"), new DateAdded("2020/12/23"), new Rating("3.5"),
                 getTagSet("nonfiction")),
         };
     }

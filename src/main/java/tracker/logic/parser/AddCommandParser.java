@@ -15,6 +15,7 @@ import tracker.model.book.Title;
 import tracker.model.book.Book;
 import tracker.model.book.Progress;
 import tracker.model.book.Category;
+import tracker.model.book.Rating;
 import tracker.model.tag.Tag;
 
 /**
@@ -30,10 +31,10 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_NOTE, PREFIX_CATEGORY,
-                        PREFIX_PROGRESS, PREFIX_DATEADDED, PREFIX_TAG);
+                        PREFIX_PROGRESS, PREFIX_DATEADDED, PREFIX_RATING, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_NOTE, PREFIX_CATEGORY,
-                PREFIX_PROGRESS)
+                PREFIX_PROGRESS, PREFIX_RATING)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
@@ -44,9 +45,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         Category category = ParserUtil.parseCategory(argMultimap.getValue(PREFIX_CATEGORY).get());
         Progress progress = ParserUtil.parseProgress(argMultimap.getValue(PREFIX_PROGRESS).get());
         DateAdded dateAdded = ParserUtil.parseDateAdded();
+        Rating rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Book book = new Book(title, author, note, category, progress, dateAdded, tagList);
+        Book book = new Book(title, author, note, category, progress, dateAdded, rating, tagList);
 
         return new AddCommand(book);
     }
