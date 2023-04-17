@@ -14,7 +14,7 @@ public class SortCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sorts all books according to a specified field "
             + "(case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: [title, author, date] [asc, desc]...\n"
+            + "Parameters: [title, author, dateAdded, dateStarted, dateFinished, rating] [asc, desc]...\n"
             + "Example: " + COMMAND_WORD + " date asc \n"
             + "Note that only 2 arguments may be specified at one time. "
             + "One specifying the field, the other, direction.";

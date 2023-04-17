@@ -15,7 +15,7 @@ import tracker.logic.parser.exceptions.ParseException;
 public class SortCommandParser implements Parser<SortCommand> {
 
     private final ArrayList<String> commandString =
-            new ArrayList<>(Arrays.asList("title", "author", "date"));
+            new ArrayList<>(Arrays.asList("title", "author", "dateadded", "datestarted", "datefinished", "rating"));
     private final ArrayList<String> dirStrings = new ArrayList<>(Arrays.asList("asc", "desc"));
 
     /**

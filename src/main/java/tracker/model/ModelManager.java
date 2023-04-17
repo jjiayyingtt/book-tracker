@@ -133,19 +133,28 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void sortBookList(String type, boolean ascending) {
+    public void sortBookList(String type, boolean isAscending) {
         switch (type) {
         case "title":
-            bookTracker.sortBooksTitle(ascending);
+            bookTracker.sortBooksTitle(isAscending);
             break;
         case "author":
-            bookTracker.sortBooksAuthor(ascending); // add sortBooksAuthor
+            bookTracker.sortBooksAuthor(isAscending);
             break;
-        case "date":
-            bookTracker.sortBooksCategory(ascending); // add sortBooksDate
+        case "dateadded":
+            bookTracker.sortBooksDateAdded(isAscending);
+            break;
+        case "datestarted":
+            bookTracker.sortBooksDateStarted(isAscending);
+            break;
+        case "datefinished":
+            bookTracker.sortBooksDateFinished(isAscending);
+            break;
+        case "rating":
+            bookTracker.sortBooksRating(isAscending);
             break;
         default:
-            bookTracker.sortBooksTitle(ascending);
+            bookTracker.sortBooksCategory(isAscending);
         }
 
         filteredPersons.setPredicate(PREDICATE_SHOW_ALL_BOOKS);

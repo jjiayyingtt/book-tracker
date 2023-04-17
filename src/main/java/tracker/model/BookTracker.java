@@ -128,6 +128,70 @@ public class BookTracker implements ReadOnlyBookTracker {
         this.setBooks(sortedOldList);
     }
 
+    /**
+     * Sets current list to be sorted list of its current data
+     * Sorting is done by comparing DateAdded
+     */
+    public void sortBooksDateAdded(boolean ascending) {
+        List<Book> sortedOldList;
+        if (ascending) {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getDateAdded));
+        } else {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getDateAdded).reversed());
+        }
+        this.setBooks(sortedOldList);
+    }
+
+    /**
+     * Sets current list to be sorted list of its current data
+     * Sorting is done by comparing DateStarted
+     */
+    public void sortBooksDateStarted(boolean ascending) {
+        List<Book> sortedOldList;
+        if (ascending) {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getDateStarted));
+        } else {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getDateStarted).reversed());
+        }
+        this.setBooks(sortedOldList);
+    }
+
+    /**
+     * Sets current list to be sorted list of its current data
+     * Sorting is done by comparing DateFinished
+     */
+    public void sortBooksDateFinished(boolean ascending) {
+        List<Book> sortedOldList;
+        if (ascending) {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getDateFinished));
+        } else {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getDateFinished).reversed());
+        }
+        this.setBooks(sortedOldList);
+    }
+
+    /**
+     * Sets current list to be sorted list of its current data
+     * Sorting is done by comparing Rating
+     */
+    public void sortBooksRating(boolean ascending) {
+        List<Book> sortedOldList;
+        if (ascending) {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getRating));
+        } else {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getRating).reversed());
+        }
+        this.setBooks(sortedOldList);
+    }
+
     //// person-level operations
 
     /**
