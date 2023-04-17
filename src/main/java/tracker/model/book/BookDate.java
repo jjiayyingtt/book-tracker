@@ -31,6 +31,16 @@ public class BookDate implements Comparable<BookDate> {
         }
 
     }
+
+    public boolean isBeforeDate(BookDate date) {
+        if (getDateTime().compareTo(date.getDateTime()) > 0) {
+            return false;
+        } else if (getDateTime().compareTo(date.getDateTime()) < 0) {
+            return true;
+        } else {
+            return true;
+        }
+    }
     @Override
     public int compareTo(BookDate o) {
         return getDateTime().compareTo(o.getDateTime());

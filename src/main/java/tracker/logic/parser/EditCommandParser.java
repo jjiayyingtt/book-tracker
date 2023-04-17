@@ -68,7 +68,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
-            editBookDescriptor.setRating(ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING).get()));
+            editBookDescriptor.setRating(ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING)));
         }
 
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editBookDescriptor::setTags);
@@ -76,6 +76,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (!editBookDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
+
 
         return new EditCommand(index, editBookDescriptor);
     }

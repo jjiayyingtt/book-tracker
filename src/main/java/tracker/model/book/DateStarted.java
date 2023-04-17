@@ -1,9 +1,5 @@
 package tracker.model.book;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import static java.util.Objects.requireNonNull;
 import static tracker.commons.util.AppUtil.checkArgument;
 

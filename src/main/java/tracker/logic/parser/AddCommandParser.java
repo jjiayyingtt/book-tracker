@@ -16,6 +16,16 @@ import tracker.model.tag.Tag;
  */
 public class AddCommandParser implements Parser<AddCommand> {
 
+    public static final String MESSAGE_CONSTRAINTS_FOR_DATESTARTED=
+            "Only read or currently reading books can have date started.";
+    public static final String MESSAGE_CONSTRAINTS_FOR_DATEFINISHED =
+            "Only read books can have date finished.";
+
+    public static final String MESSAGE_CONSTRAINTS_FOR_DATE_STARTED_AFTER_FINISHED =
+            "Date started cannot be after date finished.";
+    public static final String MESSAGE_CONSTRAINTS_FOR_RATING =
+            "Only read books can have rating.";
+
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
@@ -28,7 +38,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                         PREFIX_RATING, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_NOTE, PREFIX_CATEGORY,
-                PREFIX_PROGRESS, PREFIX_RATING) // make field optional here
+                PREFIX_PROGRESS) // make field optional here
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
@@ -41,8 +51,28 @@ public class AddCommandParser implements Parser<AddCommand> {
         DateAdded dateAdded = ParserUtil.parseDateAdded();
         DateStarted dateStarted = ParserUtil.parseDateStarted(argMultimap.getValue(PREFIX_DATESTARTED));
         DateFinished dateFinished = ParserUtil.parseDateFinished(argMultimap.getValue(PREFIX_DATEFINISHED));
-        Rating rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING).get());
+        Rating rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+
+        // check date started only for read or reading book
+        if (category.getCategoryValue() == 3 && !argMultimap.getValue(PREFIX_DATESTARTED).isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_DATESTARTED, AddCommand.MESSAGE_USAGE));
+        }
+
+        // check date finished only for read book
+        if (category.getCategoryValue() != 2 && dateFinished.toString() != "-") {
+            throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_DATEFINISHED, AddCommand.MESSAGE_USAGE));
+        }
+
+        // check date finished is after or same day as date started
+        if (dateFinished.isBeforeDate(dateStarted)) {
+            throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_DATE_STARTED_AFTER_FINISHED, AddCommand.MESSAGE_USAGE));
+        }
+
+        // check rating only for read book
+        if (category.getCategoryValue() != 2 && !argMultimap.getValue(PREFIX_RATING).isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_RATING, AddCommand.MESSAGE_USAGE));
+        }
 
         Book book = new Book(title, author, note, category, progress, dateAdded, dateStarted, dateFinished,
                 rating, tagList);

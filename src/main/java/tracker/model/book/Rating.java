@@ -7,11 +7,10 @@ import static tracker.commons.util.AppUtil.checkArgument;
  * Represents a Book's rating in the book tracker.
  * Guarantees: immutable; is valid as declared in {@link #isValidRating(String)}}
  */
-public class Rating implements Comparable<Rating>{
+public class Rating implements Comparable<Rating> {
 
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "Rating should be >= 0 and <= 5.";
+    public static final String MESSAGE_CONSTRAINTS = "Rating should be >= 0 and <= 5.";
     public static final String VALIDATION_REGEX = "^([0-5])$";
     public final String value;
 

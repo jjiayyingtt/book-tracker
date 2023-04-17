@@ -145,13 +145,17 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code rating} is invalid.
      */
-    public static Rating parseRating(String rating) throws ParseException {
-        requireNonNull(rating);
-        String trimmedRating = rating.trim();
-        if (!Rating.isValidRating(trimmedRating)) {
-            throw new ParseException(Progress.MESSAGE_CONSTRAINTS);
+    public static Rating parseRating(Optional<String> rating) throws ParseException {
+        if (rating.isEmpty()) {
+            return new Rating("0");
+        } else {
+            String trimmedRating = rating.get().trim();
+            if (!Rating.isValidRating(trimmedRating)) {
+                throw new ParseException(Rating.MESSAGE_CONSTRAINTS);
+            }
+            return new Rating(trimmedRating);
         }
-        return new Rating(trimmedRating);
+
     }
 
 
