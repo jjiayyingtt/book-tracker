@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import tracker.commons.core.index.Index;
@@ -125,8 +126,8 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code DateStarted} is invalid.
      */
-    public static DateStarted parseDateStarted(String dateStarted) throws ParseException {
-        return new DateStarted(dateStarted);
+    public static DateStarted parseDateStarted(Optional<String> dateStarted) throws ParseException {
+        return dateStarted.isEmpty() ? new DateStarted("-") : new DateStarted(dateStarted.get());
     }
 
     /**
@@ -134,8 +135,8 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code dateFinished} is invalid.
      */
-    public static DateFinished parseDateFinished(String dateFinished) throws ParseException {
-        return new DateFinished(dateFinished);
+    public static DateFinished parseDateFinished(Optional<String> dateFinished) throws ParseException {
+        return dateFinished.isEmpty() ? new DateFinished("-") : new DateFinished(dateFinished.get());
     }
 
     /**

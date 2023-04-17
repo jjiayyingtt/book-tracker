@@ -60,11 +60,11 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         if (argMultimap.getValue(PREFIX_DATESTARTED).isPresent()) {
             editBookDescriptor.setDateStarted(ParserUtil.parseDateStarted(
-                    argMultimap.getValue(PREFIX_DATESTARTED).get()));
+                    argMultimap.getValue(PREFIX_DATESTARTED)));
         }
         if (argMultimap.getValue(PREFIX_DATEFINISHED).isPresent()) {
             editBookDescriptor.setDateFinished(ParserUtil.parseDateFinished(
-                    argMultimap.getValue(PREFIX_DATEFINISHED).get()));
+                    argMultimap.getValue(PREFIX_DATEFINISHED)));
         }
 
         if (argMultimap.getValue(PREFIX_RATING).isPresent()) {

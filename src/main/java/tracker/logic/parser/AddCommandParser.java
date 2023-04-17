@@ -39,8 +39,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         Category category = ParserUtil.parseCategory(argMultimap.getValue(PREFIX_CATEGORY).get());
         Progress progress = ParserUtil.parseProgress(argMultimap.getValue(PREFIX_PROGRESS).get());
         DateAdded dateAdded = ParserUtil.parseDateAdded();
-        DateStarted dateStarted = ParserUtil.parseDateStarted(argMultimap.getValue(PREFIX_DATESTARTED).get());
-        DateFinished dateFinished = ParserUtil.parseDateFinished(argMultimap.getValue(PREFIX_DATEFINISHED).get());
+        DateStarted dateStarted = ParserUtil.parseDateStarted(argMultimap.getValue(PREFIX_DATESTARTED));
+        DateFinished dateFinished = ParserUtil.parseDateFinished(argMultimap.getValue(PREFIX_DATEFINISHED));
         Rating rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
