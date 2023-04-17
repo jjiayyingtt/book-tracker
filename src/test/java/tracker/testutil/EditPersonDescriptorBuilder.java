@@ -24,7 +24,7 @@ public class EditBookDescriptorBuilder {
     }
 
     /**
-     * Returns an {@code EditPersonDescriptor} with fields containing {@code person}'s details
+     * Returns an {@code EditPersonDescriptor} with fields containing {@code book}'s details
      */
     public EditBookDescriptorBuilder(Book book) {
         descriptor = new EditBookDescriptor();

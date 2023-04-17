@@ -21,14 +21,14 @@ import tracker.model.tag.Tag;
 public class PersonUtil {
 
     /**
-     * Returns an add command string for adding the {@code person}.
+     * Returns an add command string for adding the {@code book}.
      */
     public static String getAddCommand(Book person) {
         return AddCommand.COMMAND_WORD + " " + getPersonDetails(person);
     }
 
     /**
-     * Returns the part of command string for the given {@code person}'s details.
+     * Returns the part of command string for the given {@code book}'s details.
      */
     public static String getPersonDetails(Book book) {
         StringBuilder sb = new StringBuilder();

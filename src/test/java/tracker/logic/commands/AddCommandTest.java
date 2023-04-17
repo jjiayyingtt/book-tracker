@@ -71,7 +71,7 @@ public class AddCommandTest {
         // null -> returns false
         assertFalse(addAliceCommand.equals(null));
 
-        // different person -> returns false
+        // different book -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
@@ -150,7 +150,7 @@ public class AddCommandTest {
         }
 
         /**
-         * Returns an unmodifiable view of the person list, sorted by business size
+         * Returns an unmodifiable view of the book list, sorted by business size
          *
          * @param type
          * @param ascending
@@ -172,7 +172,7 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that contains a single person.
+     * A Model stub that contains a single book.
      */
     private class ModelStubWithPerson extends ModelStub {
         private final Book person;
@@ -190,7 +190,7 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that always accept the person being added.
+     * A Model stub that always accept the book being added.
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Book> personsAdded = new ArrayList<>();

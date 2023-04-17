@@ -43,7 +43,7 @@ public class BookTracker implements ReadOnlyBookTracker {
     //// list overwrite operations
 
     /**
-     * Replaces the contents of the person list with {@code books}.
+     * Replaces the contents of the book list with {@code books}.
      * {@code books} must not contain duplicate books.
      */
     public void setBooks(List<Book> books) {
@@ -192,7 +192,7 @@ public class BookTracker implements ReadOnlyBookTracker {
         this.setBooks(sortedOldList);
     }
 
-    //// person-level operations
+    //// book-level operations
 
     /**
      * Returns true if a book with the same identity as {@code book} exists in the address book.

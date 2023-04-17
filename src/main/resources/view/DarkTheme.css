@@ -57,7 +57,7 @@
 }
 
 .table-view .column-header-background {
-    -fx-background-color: transparent;
+    -fx-background-color: #9ABFC7;
 }
 
 .table-view .column-header, .table-view .filler {
@@ -108,19 +108,19 @@
 }
 
 .list-cell:filled:even {
-    -fx-background-color: #173736; /*even number contact's colour*/
+    -fx-background-color: #9ABFC7; /*even number contact's colour*/
 }
 
 .list-cell:filled:odd {
-    -fx-background-color: #1d4543;  /*odd number contact's colour*/
+    -fx-background-color: #7DA0A8;  /*odd number contact's colour*/
 }
 
 .list-cell:filled:selected {
-    -fx-background-color: #023020;  /*selected contact's colour*/
+    -fx-background-color: #92A7AB;  /*selected contact's colour*/
 }
 
 .list-cell:filled:selected #cardPane {
-    -fx-border-color: #1d4543;
+    -fx-border-color: #9ABFC7;
     -fx-border-width: 1;
 }
 
@@ -141,12 +141,12 @@
 }
 
 .stack-pane {
-     -fx-background-color: derive(#1d4543, 0%); /* command bar's colour */
+     -fx-background-color: derive(#9ABFC7, 0%); /* command bar's colour */
 }
 
 .pane-with-border {
-     -fx-background-color: derive(#1d1d1d, 20%);
-     -fx-border-color: derive(#1d1d1d, 10%);
+     -fx-background-color: derive(#FCFBE3, 20%); /* background's colour */
+     -fx-border-color: derive(#FCFBE3, 10%); /* background's colour */
      -fx-border-top-width: 1px;
 }
 
@@ -155,7 +155,7 @@
 }
 
 .result-display {
-    -fx-background-color: #1d4543;
+    -fx-background-color: #9ABFC7;
     -fx-font-family: "Segoe UI Light";
     -fx-font-size: 13pt;
     -fx-text-fill: white;
@@ -341,7 +341,7 @@
 }
 
 #resultDisplay .content {
-    -fx-background-color: transparent, #1d4543, transparent, #1d4543;
+    -fx-background-color: transparent, #9ABFC7, transparent, #9ABFC7;
     -fx-background-radius: 0;
 }
 

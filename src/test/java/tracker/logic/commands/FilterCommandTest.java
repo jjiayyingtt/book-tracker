@@ -51,7 +51,7 @@ public class FilterCommandTest {
         // null -> returns false
         assertFalse(filterFirstCommand.equals(null));
 
-        // different person -> returns false
+        // different book -> returns false
         assertFalse(filterFirstCommand.equals(filterSecondCommand));
     }
 

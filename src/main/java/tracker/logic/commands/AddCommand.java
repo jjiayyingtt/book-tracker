@@ -14,7 +14,7 @@ import tracker.model.Model;
 import tracker.model.book.Book;
 
 /**
- * Adds a person to the address book.
+ * Adds a book to the address book.
  */
 public class AddCommand extends Command {
 

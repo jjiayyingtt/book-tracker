@@ -2,12 +2,7 @@ package tracker.ui;
 
 import java.util.logging.Logger;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextInputControl;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import tracker.commons.core.GuiSettings;
@@ -32,7 +27,7 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private PersonListPanel personListPanel;
+    private BookListPanel bookListPanel;
     private ResultDisplay resultDisplay;
     private CurrentlyReadingDisplay currentlyReadingDisplay;
     private HelpWindow helpWindow;
@@ -43,11 +38,11 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane commandBoxPlaceholder;
 
-    @FXML
-    private MenuItem helpMenuItem;
+    //@FXML
+    //private MenuItem helpMenuItem;
 
-    @FXML
-    private MenuItem summaryMenuItem;
+    //@FXML
+    //private MenuItem summaryMenuItem;
 
     @FXML
     private StackPane personListPanelPlaceholder;
@@ -71,7 +66,7 @@ public class MainWindow extends UiPart<Stage> {
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
 
-        setAccelerators();
+        //setAccelerators();
 
         helpWindow = new HelpWindow();
         summaryWindow = new SummaryWindow();
@@ -81,16 +76,16 @@ public class MainWindow extends UiPart<Stage> {
         return primaryStage;
     }
 
-    private void setAccelerators() {
-        setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
-    }
+    //private void setAccelerators() {
+        //setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
+    //}
 
 
     /**
      * Sets the accelerator of a MenuItem.
      * @param keyCombination the KeyCombination value of the accelerator
      */
-    private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
+    /*private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
 
         /*
@@ -108,20 +103,20 @@ public class MainWindow extends UiPart<Stage> {
          * help window purposely so to support accelerators even when focus is
          * in CommandBox or ResultDisplay.
          */
-        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+    /*    getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
                 menuItem.getOnAction().handle(new ActionEvent());
                 event.consume();
             }
         });
-    }
+    }*/
 
     /**
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        bookListPanel = new BookListPanel(logic.getFilteredPersonList());
+        personListPanelPlaceholder.getChildren().add(bookListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -203,8 +198,8 @@ public class MainWindow extends UiPart<Stage> {
         this.currentlyReading = currentlyReading;
     }
 
-    public PersonListPanel getPersonListPanel() {
-        return personListPanel;
+    public BookListPanel getPersonListPanel() {
+        return bookListPanel;
     }
 
     /**

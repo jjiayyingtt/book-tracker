@@ -12,9 +12,9 @@ import tracker.model.book.Book;
 /**
  * An UI component that displays information of a {@code Person}.
  */
-public class PersonCard extends UiPart<Region> {
+public class BookCard extends UiPart<Region> {
 
-    private static final String FXML = "PersonListCard.fxml";
+    private static final String FXML = "BookListCard.fxml";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -24,24 +24,24 @@ public class PersonCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    public final Book person;
+    public final Book book;
 
     @FXML
     private HBox cardPane;
     @FXML
-    private Label name;
+    private Label title;
     @FXML
     private Label id;
     @FXML
-    private Label phone;
+    private Label author;
     @FXML
-    private Label address;
+    private Label note;
     @FXML
-    private Label email;
+    private Label category;
     @FXML
-    private Label company;
+    private Label progress;
     @FXML
-    private Label priority;
+    private Label dateAdded;
     @FXML
     private Label dateStarted;
     @FXML
@@ -55,20 +55,20 @@ public class PersonCard extends UiPart<Region> {
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public PersonCard(Book person, int displayedIndex) {
+    public BookCard(Book book, int displayedIndex) {
         super(FXML);
-        this.person = person;
+        this.book = book;
         id.setText(displayedIndex + ". ");
-        name.setText("Title: " + person.getTitle().fullTitle);
-        phone.setText("Author: " + person.getAuthor().value);
-        address.setText("Note: " + person.getNote().value);
-        email.setText("Category: " + person.getCategory().value);
-        company.setText("Progress: " + person.getProgress().value + "%");
-        priority.setText("Date Added: " + person.getDateAdded().value);
-        dateStarted.setText("Date Started: " + person.getDateStarted().value);
-        dateFinished.setText("Date Finished: " + person.getDateFinished().value);
-        rating.setText("Rating: " + person.getRating().value);
-        person.getTags().stream()
+        title.setText("Title: " + book.getTitle().fullTitle);
+        author.setText("Author: " + book.getAuthor().value);
+        note.setText("Note: " + book.getNote().value);
+        category.setText("Category: " + book.getCategory().value);
+        progress.setText("Progress: " + book.getProgress().value + "%");
+        dateAdded.setText("Date Added: " + book.getDateAdded().value);
+        dateStarted.setText("Date Started: " + book.getDateStarted().value);
+        dateFinished.setText("Date Finished: " + book.getDateFinished().value);
+        rating.setText("Rating: " + book.getRating().value);
+        book.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
@@ -81,13 +81,13 @@ public class PersonCard extends UiPart<Region> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof PersonCard)) {
+        if (!(other instanceof BookCard)) {
             return false;
         }
 
         // state check
-        PersonCard card = (PersonCard) other;
+        BookCard card = (BookCard) other;
         return id.getText().equals(card.id.getText())
-                && person.equals(card.person);
+                && book.equals(card.book);
     }
 }

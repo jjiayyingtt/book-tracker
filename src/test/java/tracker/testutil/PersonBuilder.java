@@ -147,7 +147,7 @@ public class PersonBuilder {
     }
 
     /**
-     * Build a new person.
+     * Build a new book.
      */
     public Book build() {
         return new Book(name, phone, email, address, businessSize, company,
