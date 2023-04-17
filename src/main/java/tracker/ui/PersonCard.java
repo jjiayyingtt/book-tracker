@@ -43,6 +43,10 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label priority;
     @FXML
+    private Label dateStarted;
+    @FXML
+    private Label dateFinished;
+    @FXML
     private Label rating;
 
     @FXML
@@ -61,6 +65,8 @@ public class PersonCard extends UiPart<Region> {
         email.setText("Category: " + person.getCategory().value);
         company.setText("Progress: " + person.getProgress().value + "%");
         priority.setText("Date Added: " + person.getDateAdded().value);
+        dateStarted.setText("Date Started: " + person.getDateStarted().value);
+        dateFinished.setText("Date Finished: " + person.getDateFinished().value);
         rating.setText("Rating: " + person.getRating().value);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))

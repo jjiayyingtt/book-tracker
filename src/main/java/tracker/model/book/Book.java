@@ -16,6 +16,8 @@ public class Book implements Comparable<Book> {
     private final Title title;
     private final Progress progress;
     private final DateAdded dateAdded;
+    private final DateStarted dateStarted;
+    private final DateFinished dateFinished;
 
     // Data fields
     private final Note note;
@@ -31,7 +33,7 @@ public class Book implements Comparable<Book> {
      * Every field must be present and not null.
      */
     public Book(Title title, Author author, Note note, Category category, Progress progress, DateAdded dateAdded,
-                  Rating rating, Set<Tag> tags) {
+                DateStarted dateStarted, DateFinished dateFinished, Rating rating, Set<Tag> tags) {
         requireAllNonNull(title, author, note, category, progress, dateAdded, rating, tags);
         this.title = title;
         this.author = author;
@@ -39,6 +41,8 @@ public class Book implements Comparable<Book> {
         this.category = category;
         this.progress = progress;
         this.dateAdded = dateAdded;
+        this.dateStarted = dateStarted;
+        this.dateFinished = dateFinished;
         this.rating = rating;
         this.tags.addAll(tags);
     }
@@ -51,6 +55,8 @@ public class Book implements Comparable<Book> {
     public Author getAuthor() {
         return author;
     }
+    public String getAuthorString() { return getAuthor().toString(); }
+    public String getStandardisedAuthorString() { return getAuthorString().toLowerCase(); }
     public Note getNote() {
         return note;
     }
@@ -61,6 +67,12 @@ public class Book implements Comparable<Book> {
     public Progress getProgress() { return progress; }
     public DateAdded getDateAdded() {
         return dateAdded;
+    }
+    public DateStarted getDateStarted() {
+        return dateStarted;
+    }
+    public DateFinished getDateFinished() {
+        return dateFinished;
     }
     public Rating getRating() {
         return rating;
@@ -108,6 +120,8 @@ public class Book implements Comparable<Book> {
                 && otherBook.getCategory().equals(getCategory())
                 && otherBook.getProgress().equals(getProgress())
                 && otherBook.getDateAdded().equals(getDateAdded())
+                && otherBook.getDateStarted().equals(getDateStarted())
+                && otherBook.getDateFinished().equals(getDateFinished())
                 && otherBook.getRating().equals(getRating())
                 && otherBook.getTags().equals(getTags());
     }
@@ -116,7 +130,8 @@ public class Book implements Comparable<Book> {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(title, author, note, category, progress, dateAdded, rating, tags);
+        return Objects.hash(title, author, note, category, progress, dateAdded, dateStarted, dateFinished,
+                rating, tags);
     }
 
 
@@ -135,6 +150,10 @@ public class Book implements Comparable<Book> {
                 .append(getProgress())
                 .append("; Date Added: ")
                 .append(getDateAdded())
+                .append("; Date Started: ")
+                .append(getDateStarted())
+                .append("; Date Finished: ")
+                .append(getDateFinished())
                 .append("; Rating: ")
                 .append(getRating());
 

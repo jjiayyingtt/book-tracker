@@ -112,6 +112,22 @@ public class BookTracker implements ReadOnlyBookTracker {
         this.setBooks(sortedOldList);
     }
 
+    /**
+     * Sets current list to be sorted list of its current data
+     * Sorting is done by comparing Author in alphabetical order
+     */
+    public void sortBooksAuthor(boolean ascending) {
+        List<Book> sortedOldList;
+        if (ascending) {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getStandardisedAuthorString));
+        } else {
+            sortedOldList = this.getBookList()
+                    .sorted(Comparator.comparing(Book::getStandardisedAuthorString).reversed());
+        }
+        this.setBooks(sortedOldList);
+    }
+
     //// person-level operations
 
     /**

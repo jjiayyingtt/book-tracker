@@ -14,26 +14,26 @@ import tracker.commons.core.LogsCenter;
 import tracker.model.book.Book;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the book tracker data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final BookTracker addressBook;
+    private final BookTracker bookTracker;
     private final UserPrefs userPrefs;
     private final FilteredList<Book> filteredPersons;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given bookTracker and userPrefs.
      */
-    public ModelManager(ReadOnlyBookTracker addressBook, ReadOnlyUserPrefs userPrefs) {
-        requireAllNonNull(addressBook, userPrefs);
+    public ModelManager(ReadOnlyBookTracker bookTracker, ReadOnlyUserPrefs userPrefs) {
+        requireAllNonNull(bookTracker, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with book tracker: " + bookTracker + " and user prefs " + userPrefs);
 
-        this.addressBook = new BookTracker(addressBook);
+        this.bookTracker = new BookTracker(bookTracker);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.addressBook.getBookList());
+        filteredPersons = new FilteredList<>(this.bookTracker.getBookList());
     }
 
     public ModelManager() {
@@ -79,28 +79,28 @@ public class ModelManager implements Model {
 
     @Override
     public void setBookTracker(ReadOnlyBookTracker addressBook) {
-        this.addressBook.resetData(addressBook);
+        this.bookTracker.resetData(addressBook);
     }
 
     @Override
     public ReadOnlyBookTracker getBookTracker() {
-        return addressBook;
+        return bookTracker;
     }
 
     @Override
     public boolean hasBook(Book person) {
         requireNonNull(person);
-        return addressBook.hasBook(person);
+        return bookTracker.hasBook(person);
     }
 
     @Override
     public void deleteBook(Book target) {
-        addressBook.removeBook(target);
+        bookTracker.removeBook(target);
     }
 
     @Override
     public void addBook(Book person) {
-        addressBook.addBook(person);
+        bookTracker.addBook(person);
         updateFilteredBookList(PREDICATE_SHOW_ALL_BOOKS);
     }
 
@@ -108,17 +108,17 @@ public class ModelManager implements Model {
     public void setBook(Book target, Book editedPerson) {
         requireAllNonNull(target, editedPerson);
 
-        addressBook.setBook(target, editedPerson);
+        bookTracker.setBook(target, editedPerson);
     }
 
     @Override
     public int size() {
-        System.out.println(addressBook.size());
-        return addressBook.size();
+        System.out.println(bookTracker.size());
+        return bookTracker.size();
     }
 
     public Book getCurrentlyReading() {
-        return addressBook.getCurrentlyReading();
+        return bookTracker.getCurrentlyReading();
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -135,17 +135,17 @@ public class ModelManager implements Model {
     @Override
     public void sortBookList(String type, boolean ascending) {
         switch (type) {
-            case "title":
-                addressBook.sortBooksTitle(ascending);
-                break;
-            case "author":
-                addressBook.sortBooksCategory(ascending); // add sortBooksAuthor
-                break;
-            case "date":
-                addressBook.sortBooksCategory(ascending); // add sortBooksDate
-                break;
-            default:
-                addressBook.sortBooksTitle(ascending);
+        case "title":
+            bookTracker.sortBooksTitle(ascending);
+            break;
+        case "author":
+            bookTracker.sortBooksAuthor(ascending); // add sortBooksAuthor
+            break;
+        case "date":
+            bookTracker.sortBooksCategory(ascending); // add sortBooksDate
+            break;
+        default:
+            bookTracker.sortBooksTitle(ascending);
         }
 
         filteredPersons.setPredicate(PREDICATE_SHOW_ALL_BOOKS);
@@ -171,7 +171,7 @@ public class ModelManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return addressBook.equals(other.addressBook)
+        return bookTracker.equals(other.bookTracker)
                 && userPrefs.equals(other.userPrefs)
                 && filteredPersons.equals(other.filteredPersons);
     }

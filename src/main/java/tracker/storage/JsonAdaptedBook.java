@@ -26,6 +26,8 @@ class JsonAdaptedBook {
     private final String category;
     private final String progress;
     private final String dateAdded;
+    private final String dateStarted;
+    private final String dateFinished;
     private final String rating;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
@@ -36,6 +38,8 @@ class JsonAdaptedBook {
     public JsonAdaptedBook(@JsonProperty("title") String title, @JsonProperty("author") String author,
                            @JsonProperty("note") String note, @JsonProperty("category") String category,
                            @JsonProperty("progress") String progress, @JsonProperty("dateAdded") String dateAdded,
+                           @JsonProperty("dateStarted") String dateStarted,
+                           @JsonProperty("dateFinished") String dateFinished,
                            @JsonProperty("rating") String rating,
                            @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
         this.title = title;
@@ -44,6 +48,8 @@ class JsonAdaptedBook {
         this.category = category;
         this.progress = progress;
         this.dateAdded = dateAdded;
+        this.dateStarted = dateStarted;
+        this.dateFinished = dateFinished;
         this.rating = rating;
         if (tagged != null) {
             this.tagged.addAll(tagged);
@@ -60,6 +66,8 @@ class JsonAdaptedBook {
         category = source.getCategory().value;
         progress = source.getProgress().value;
         dateAdded = source.getDateAdded().value;
+        dateStarted = source.getDateStarted().value;
+        dateFinished = source.getDateFinished().value;
         rating = source.getRating().value;
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -132,6 +140,18 @@ class JsonAdaptedBook {
 
         final DateAdded modelDateAdded = new DateAdded(dateAdded);
 
+        if (!DateStarted.isValidDate(dateStarted)) {
+            throw new IllegalValueException("DateAdded.MESSAGE_CONSTRAINTS");
+        }
+
+        final DateStarted modelDateStarted = new DateStarted(dateStarted);
+
+        if (!DateFinished.isValidDate(dateFinished)) {
+            throw new IllegalValueException("DateAdded.MESSAGE_CONSTRAINTS");
+        }
+
+        final DateFinished modelDateFinished = new DateFinished(dateFinished);
+
         if (!Rating.isValidRating(rating)) {
             throw new IllegalValueException(Rating.MESSAGE_CONSTRAINTS);
         }
@@ -141,7 +161,7 @@ class JsonAdaptedBook {
 
         final Set<Tag> modelTags = new HashSet<>(bookTags);
         return new Book(modelName, modelPhone, modelEmail, modelAddress, modelCompany,
-                modelDateAdded, modelRating, modelTags);
+                modelDateAdded, modelDateStarted, modelDateFinished, modelRating, modelTags);
     }
 
 }

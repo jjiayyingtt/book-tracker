@@ -97,11 +97,14 @@ public class EditCommand extends Command {
         Note updatedNote = editBookDescriptor.getNote().orElse(bookToEdit.getNote());
         Category updatedCategory = editBookDescriptor.getCategory().orElse(bookToEdit.getCategory());
         Progress updatedProgress = editBookDescriptor.getProgress().orElse(bookToEdit.getProgress());
+        DateStarted updatedDateStarted = editBookDescriptor.getDateStarted().orElse(bookToEdit.getDateStarted());
+        DateFinished updatedDateFinished = editBookDescriptor.getDateFinished().orElse(bookToEdit.getDateFinished());
         Rating updatedRating = editBookDescriptor.getRating().orElse(bookToEdit.getRating());
         Set<Tag> updatedTags = editBookDescriptor.getTags().orElse(bookToEdit.getTags());
 
         return new Book(updatedTitle, updatedAuthor, updatedNote, updatedCategory,
-                updatedProgress, bookToEdit.getDateAdded(), updatedRating, updatedTags);
+                updatedProgress, bookToEdit.getDateAdded(), updatedDateStarted, updatedDateFinished,
+                updatedRating, updatedTags);
     }
 
     @Override
@@ -130,6 +133,8 @@ public class EditCommand extends Command {
         private Title title;
         private Progress progress;
         private DateAdded dateAdded;
+        private DateStarted dateStarted;
+        private DateFinished dateFinished;
 
         // Data fields
         private Note note;
@@ -151,6 +156,8 @@ public class EditCommand extends Command {
             setCategory(toCopy.category);
             setProgress(toCopy.progress);
             setDateAdded(toCopy.dateAdded);
+            setDateStarted(toCopy.dateStarted);
+            setDateFinished(toCopy.dateFinished);
             setRating(toCopy.rating);
             setTags(toCopy.tags);
         }
@@ -160,7 +167,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(title, author, note, category, progress,
-                    dateAdded, rating, tags);
+                    dateAdded, dateStarted, dateFinished, rating, tags);
         }
 
         public void setTitle(Title title) {
@@ -209,6 +216,20 @@ public class EditCommand extends Command {
             return Optional.ofNullable(dateAdded);
         }
 
+        public void setDateStarted(DateStarted dateStarted) {
+            this.dateStarted = dateStarted;
+        }
+        public Optional<DateStarted> getDateStarted() {
+            return Optional.ofNullable(dateStarted);
+        }
+
+        public void setDateFinished(DateFinished dateFinished) {
+            this.dateFinished = dateFinished;
+        }
+        public Optional<DateFinished> getDateFinished() {
+            return Optional.ofNullable(dateFinished);
+        }
+
         public void setRating(Rating rating) {
             this.rating = rating;
         }
@@ -254,6 +275,8 @@ public class EditCommand extends Command {
                     && e.getCategory().equals(getCategory())
                     && e.getProgress().equals(getProgress())
                     && e.getDateAdded().equals(getDateAdded())
+                    && e.getDateStarted().equals(getDateStarted())
+                    && e.getDateFinished().equals(getDateFinished())
                     && e.getRating().equals(getRating())
                     && e.getTags().equals(getTags());
         }

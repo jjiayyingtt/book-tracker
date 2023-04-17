@@ -4,23 +4,23 @@ import static java.util.Objects.requireNonNull;
 import static tracker.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Book's date that it was added to the book tracker.
+ * Represents a Book's date that the user finished reading on.
  * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
  */
-public class DateAdded extends BookDate {
+public class DateFinished extends BookDate {
 
     public final String value;
 
     /**
-     * Constructs an {@code DateAdded}.
+     * Constructs an {@code DateFinished}.
      *
-     * @param dateAdded A valid date.
+     * @param dateFinished A valid date.
      */
-    public DateAdded(String dateAdded) {
-        super(dateAdded);
-        requireNonNull(dateAdded);
+    public DateFinished(String dateFinished) {
+        super(dateFinished);
+        requireNonNull(dateFinished);
         //checkArgument(isValidDate(dateAdded), MESSAGE_CONSTRAINTS);
-        value = dateAdded;
+        value = dateFinished;
     }
 
     /**

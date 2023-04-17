@@ -1,5 +1,9 @@
 package tracker.model.book;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static java.util.Objects.requireNonNull;
 import static tracker.commons.util.AppUtil.checkArgument;
 
@@ -7,20 +11,20 @@ import static tracker.commons.util.AppUtil.checkArgument;
  * Represents a Book's date that it was added to the book tracker.
  * Guarantees: immutable; is valid as declared in {@link #isValidDate(String)}
  */
-public class DateAdded extends BookDate {
+public class DateStarted extends BookDate {
 
     public final String value;
 
     /**
-     * Constructs an {@code DateAdded}.
+     * Constructs an {@code DateStarted}.
      *
-     * @param dateAdded A valid date.
+     * @param dateStarted A valid date.
      */
-    public DateAdded(String dateAdded) {
-        super(dateAdded);
-        requireNonNull(dateAdded);
+    public DateStarted(String dateStarted) {
+        super(dateStarted);
+        requireNonNull(dateStarted);
         //checkArgument(isValidDate(dateAdded), MESSAGE_CONSTRAINTS);
-        value = dateAdded;
+        value = dateStarted;
     }
 
     /**

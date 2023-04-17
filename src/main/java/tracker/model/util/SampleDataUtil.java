@@ -17,7 +17,8 @@ public class SampleDataUtil {
         return new Book[] {
             new Book(new Title("Book"), new Author("Me"), new Note("masterpiece!"),
                 new Category("READ"),
-                    new Progress("100"), new DateAdded("2020/12/23"), new Rating("3.5"),
+                    new Progress("100"), new DateAdded("2020/12/23"), new DateStarted("2020/12/23"),
+                    new DateFinished("2020/12/23"), new Rating("3.5"),
                 getTagSet("nonfiction")),
         };
     }

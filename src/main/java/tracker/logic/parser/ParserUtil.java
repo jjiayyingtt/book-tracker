@@ -121,6 +121,24 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String DateStarted} into an {@code DateStarted}.
+     *
+     * @throws ParseException if the given {@code DateStarted} is invalid.
+     */
+    public static DateStarted parseDateStarted(String dateStarted) throws ParseException {
+        return new DateStarted(dateStarted);
+    }
+
+    /**
+     * Parses a {@code String dateFinished} into an {@code dateFinished}.
+     *
+     * @throws ParseException if the given {@code dateFinished} is invalid.
+     */
+    public static DateFinished parseDateFinished(String dateFinished) throws ParseException {
+        return new DateFinished(dateFinished);
+    }
+
+    /**
      * Parses a {@code String rating} into an {@code Rating}.
      * Leading and trailing whitespaces will be trimmed.
      *
