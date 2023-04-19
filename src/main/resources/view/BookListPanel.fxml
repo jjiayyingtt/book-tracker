@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
+<?import java.net.URL?>
+
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="bookListView" VBox.vgrow="ALWAYS" />
-</VBox>
+<ScrollPane fx:id="bookListScrollContainer" vbarPolicy="ALWAYS" hbarPolicy="NEVER" hvalue="1.0" vvalue="0.0" id="book-list-scroll-container" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <stylesheets>
+    <URL value="@DarkTheme.css" />
+  </stylesheets>
+  <content>
+    <VBox fx:id="bookList" id="book-list" />
+  </content>
+</ScrollPane>

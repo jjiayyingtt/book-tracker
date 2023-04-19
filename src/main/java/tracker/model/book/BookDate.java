@@ -43,7 +43,15 @@ public class BookDate implements Comparable<BookDate> {
     }
     @Override
     public int compareTo(BookDate o) {
-        return getDateTime().compareTo(o.getDateTime());
+        if (value.equals("-") && o.value.equals("-")) {
+            return 0;
+        } else if (value.equals("-")) {
+            return -1;
+        } else if (o.value.equals("-")) {
+            return 1;
+        } else {
+            return getDateTime().compareTo(o.getDateTime());
+        }
     }
 
 }

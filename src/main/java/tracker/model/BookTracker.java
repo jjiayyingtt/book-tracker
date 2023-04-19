@@ -144,6 +144,7 @@ public class BookTracker implements ReadOnlyBookTracker {
         this.setBooks(sortedOldList);
     }
 
+
     /**
      * Sets current list to be sorted list of its current data
      * Sorting is done by comparing DateStarted

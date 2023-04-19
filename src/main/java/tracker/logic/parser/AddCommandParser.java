@@ -65,9 +65,12 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         // check date finished is after or same day as date started
-        if (dateFinished.isBeforeDate(dateStarted)) {
-            throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_DATE_STARTED_AFTER_FINISHED, AddCommand.MESSAGE_USAGE));
+        if (!argMultimap.getValue(PREFIX_DATESTARTED).isEmpty() && !argMultimap.getValue(PREFIX_DATESTARTED).isEmpty()) {
+            if (dateFinished.isBeforeDate(dateStarted)) {
+                throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_DATE_STARTED_AFTER_FINISHED, AddCommand.MESSAGE_USAGE));
+            }
         }
+
 
         // check rating only for read book
         if (category.getCategoryValue() != 2 && !argMultimap.getValue(PREFIX_RATING).isEmpty()) {

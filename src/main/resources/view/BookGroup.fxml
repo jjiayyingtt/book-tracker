@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="bookGroup" VBox.vgrow="ALWAYS" styleClass="book-group" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@DarkTheme.css" />
+    </stylesheets>
+
+    <GridPane fx:id="bookCardGroup" hgap="5" vgap="5" styleClass="book-card-group" />
+</VBox>

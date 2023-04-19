@@ -24,7 +24,7 @@ public class BookCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    public final Book book;
+    //public final Book book;
 
     @FXML
     private HBox cardPane;
@@ -35,17 +35,7 @@ public class BookCard extends UiPart<Region> {
     @FXML
     private Label author;
     @FXML
-    private Label note;
-    @FXML
-    private Label category;
-    @FXML
-    private Label progress;
-    @FXML
     private Label dateAdded;
-    @FXML
-    private Label dateStarted;
-    @FXML
-    private Label dateFinished;
     @FXML
     private Label rating;
 
@@ -55,24 +45,41 @@ public class BookCard extends UiPart<Region> {
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public BookCard(Book book, int displayedIndex) {
+    public BookCard(Book book) { //, int displayedIndex) {
         super(FXML);
-        this.book = book;
-        id.setText(displayedIndex + ". ");
+        //this.book = book;
+        fillCard(book);
+    }
+
+    /**
+     * Instantiates a new placeholder BookCard component. Purpose of this placeholder is to set the
+     * max width of the actual BookCards in BookGroup.
+     */
+    public BookCard() {
+        super(FXML);
+    }
+
+    /**
+     * Populates the BookCard with its information (book code, credits, semyear, grade, tags)
+     * @param book The book object that encapsulates the book information.
+     */
+    private void fillCard(Book book) {
+        //id.setText(displayedIndex + ". ");
         title.setText("Title: " + book.getTitle().fullTitle);
         author.setText("Author: " + book.getAuthor().value);
-        note.setText("Note: " + book.getNote().value);
-        category.setText("Category: " + book.getCategory().value);
-        progress.setText("Progress: " + book.getProgress().value + "%");
+        //note.setText("Note: " + book.getNote().value);
+        //category.setText("Category: " + book.getCategory().value);
+        //progress.setText("Progress: " + book.getProgress().value + "%");
         dateAdded.setText("Date Added: " + book.getDateAdded().value);
-        dateStarted.setText("Date Started: " + book.getDateStarted().value);
-        dateFinished.setText("Date Finished: " + book.getDateFinished().value);
+        //dateStarted.setText("Date Started: " + book.getDateStarted().value);
+        //dateFinished.setText("Date Finished: " + book.getDateFinished().value);
         rating.setText("Rating: " + book.getRating().value);
         book.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 
+    /*
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -89,5 +96,5 @@ public class BookCard extends UiPart<Region> {
         BookCard card = (BookCard) other;
         return id.getText().equals(card.id.getText())
                 && book.equals(card.book);
-    }
+    }*/
 }
