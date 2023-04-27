@@ -45,7 +45,7 @@ public class BookCard extends UiPart<Region> {
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public BookCard(Book book) { //, int displayedIndex) {
+    public BookCard(Book book, int displayedIndex) {
         super(FXML);
         //this.book = book;
         fillCard(book);
