@@ -10,15 +10,21 @@ import java.util.Optional;
 import java.util.Set;
 
 import tracker.commons.core.index.Index;
+import tracker.logic.commands.AddCommand;
 import tracker.logic.commands.EditCommand;
 import tracker.logic.commands.EditCommand.EditBookDescriptor;
 import tracker.logic.parser.exceptions.ParseException;
+import tracker.model.book.Category;
+import tracker.model.book.DateAdded;
+import tracker.model.book.DateFinished;
+import tracker.model.book.Rating;
 import tracker.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new EditCommand object
  */
 public class EditCommandParser implements Parser<EditCommand> {
+
 
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
@@ -77,8 +83,24 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
+        // if category is changed, then need to change datestarted, datefinished and rating
+        if (argMultimap.getValue(PREFIX_CATEGORY).isPresent()) {
+            int newCategoryValue = ParserUtil.parseCategory(argMultimap.getValue(PREFIX_CATEGORY).get()).getCategoryValue();
+            if (newCategoryValue == 3) { // want = 3
+                editBookDescriptor.setDateStarted(ParserUtil.parseDateStarted(Optional.empty()));
+                editBookDescriptor.setDateFinished(ParserUtil.parseDateFinished(Optional.empty()));
+                editBookDescriptor.setRating(new Rating("0"));
+                return new EditCommand(index, editBookDescriptor, true);
+            } else if (newCategoryValue == 2) { // reading = 2
+                editBookDescriptor.setDateFinished(ParserUtil.parseDateFinished(Optional.empty()));
+                editBookDescriptor.setRating(new Rating("0"));
+                return new EditCommand(index, editBookDescriptor, true);
+            } else {
+                // no change, because book is read, these fields are optional
+            }
+        }
 
-        return new EditCommand(index, editBookDescriptor);
+        return new EditCommand(index, editBookDescriptor, false);
     }
 
     /**

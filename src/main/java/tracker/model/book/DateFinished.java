@@ -23,6 +23,14 @@ public class DateFinished extends BookDate {
         value = dateFinished;
     }
 
+    public boolean isEmpty() {
+        if (value.equals("-")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Returns if a given string is a valid date.
      */

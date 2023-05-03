@@ -1,13 +1,8 @@
 package tracker.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static tracker.logic.parser.CliSyntax.PREFIX_CATEGORY;
-import static tracker.logic.parser.CliSyntax.PREFIX_PROGRESS;
-import static tracker.logic.parser.CliSyntax.PREFIX_NOTE;
-import static tracker.logic.parser.CliSyntax.PREFIX_TITLE;
-import static tracker.logic.parser.CliSyntax.PREFIX_AUTHOR;
-import static tracker.logic.parser.CliSyntax.PREFIX_RATING;
-import static tracker.logic.parser.CliSyntax.PREFIX_TAG;
+import static tracker.logic.parser.CliSyntax.*;
+import static tracker.logic.parser.CliSyntax.PREFIX_DATESTARTED;
 import static tracker.model.Model.PREDICATE_SHOW_ALL_BOOKS;
 
 import java.util.Collections;
@@ -20,6 +15,7 @@ import tracker.commons.core.Messages;
 import tracker.commons.core.index.Index;
 import tracker.commons.util.CollectionUtil;
 import tracker.logic.commands.exceptions.CommandException;
+import tracker.logic.parser.exceptions.ParseException;
 import tracker.model.Model;
 import tracker.model.book.*;
 import tracker.model.tag.Tag;
@@ -47,22 +43,38 @@ public class EditCommand extends Command {
             + PREFIX_NOTE + "not so great";
 
     public static final String MESSAGE_EDIT_BOOK_SUCCESS = "Edited Book: %1$s";
+    public static final String MESSAGE_EDIT_CATEGORY_CHANGE = "Edited Book: %1$s\n"
+            + "Because of a change in category, other fields might have been changed. "
+            + "(Date Started, Date Finished and Rating)";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_BOOK = "This book already exists in the book tracker.";
 
+    public static final String MESSAGE_CONSTRAINTS_FOR_DATESTARTED=
+            "Only read or currently reading books can have date started.";
+    public static final String MESSAGE_CONSTRAINTS_FOR_DATEFINISHED =
+            "Only read books can have date finished.";
+
+    public static final String MESSAGE_CONSTRAINTS_FOR_DATE_STARTED_AFTER_FINISHED =
+            "Date started cannot be after date finished.";
+    public static final String MESSAGE_CONSTRAINTS_FOR_RATING =
+            "Only read books can have rating.";
+
     private final Index index;
     private final EditBookDescriptor editBookDescriptor;
+
+    private final boolean categoryChanged;
 
     /**
      * @param index of the book in the filtered book list to edit
      * @param editBookDescriptor details to edit the book with
      */
-    public EditCommand(Index index, EditBookDescriptor editBookDescriptor) {
+    public EditCommand(Index index, EditBookDescriptor editBookDescriptor, boolean categoryChanged) {
         requireNonNull(index);
         requireNonNull(editBookDescriptor);
 
         this.index = index;
         this.editBookDescriptor = new EditBookDescriptor(editBookDescriptor);
+        this.categoryChanged = categoryChanged;
     }
 
     @Override
@@ -83,14 +95,18 @@ public class EditCommand extends Command {
 
         model.setBook(bookToEdit, editedBook);
         model.updateFilteredBookList(PREDICATE_SHOW_ALL_BOOKS);
-        return new CommandResult(String.format(MESSAGE_EDIT_BOOK_SUCCESS, editedBook));
+        if (categoryChanged) {
+            return new CommandResult(String.format(MESSAGE_EDIT_CATEGORY_CHANGE, editedBook));
+        } else {
+            return new CommandResult(String.format(MESSAGE_EDIT_BOOK_SUCCESS, editedBook));
+        }
     }
 
     /**
      * Creates and returns a {@code Book} with the details of {@code bookToEdit}
      * edited with {@code editBookDescriptor}.
      */
-    public static Book createEditedBook(Book bookToEdit, EditBookDescriptor editBookDescriptor) {
+    public static Book createEditedBook(Book bookToEdit, EditBookDescriptor editBookDescriptor) throws CommandException {
         assert bookToEdit != null;
         Title updatedTitle = editBookDescriptor.getTitle().orElse(bookToEdit.getTitle());
         Author updatedAuthor = editBookDescriptor.getAuthor().orElse(bookToEdit.getAuthor());
@@ -101,6 +117,28 @@ public class EditCommand extends Command {
         DateFinished updatedDateFinished = editBookDescriptor.getDateFinished().orElse(bookToEdit.getDateFinished());
         Rating updatedRating = editBookDescriptor.getRating().orElse(bookToEdit.getRating());
         Set<Tag> updatedTags = editBookDescriptor.getTags().orElse(bookToEdit.getTags());
+
+        // check date started only for read or reading book
+        if (updatedCategory.getCategoryValue() == 3 && !editBookDescriptor.getDateStarted().isEmpty()) {
+            throw new CommandException(MESSAGE_CONSTRAINTS_FOR_DATESTARTED);
+        }
+
+        // check date finished only for read book
+        if (updatedCategory.getCategoryValue() != 2 && !editBookDescriptor.getDateFinished().isEmpty()) {
+            throw new CommandException(MESSAGE_CONSTRAINTS_FOR_DATEFINISHED);
+        }
+
+        // check date finished is after or same day as date started
+        if (!updatedDateStarted.isEmpty() && !updatedDateFinished.isEmpty()) {
+            if (updatedDateFinished.isBeforeDate(updatedDateStarted)) {
+                throw new CommandException(MESSAGE_CONSTRAINTS_FOR_DATE_STARTED_AFTER_FINISHED);
+            }
+        }
+
+        // check rating only for read book
+        if (updatedCategory.getCategoryValue() != 2 && !editBookDescriptor.getRating().isEmpty()) {
+            throw new CommandException(MESSAGE_CONSTRAINTS_FOR_RATING);
+        }
 
         return new Book(updatedTitle, updatedAuthor, updatedNote, updatedCategory,
                 updatedProgress, bookToEdit.getDateAdded(), updatedDateStarted, updatedDateFinished,
