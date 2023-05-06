@@ -15,12 +15,8 @@ import tracker.commons.util.ConfigUtil;
 import tracker.commons.util.StringUtil;
 import tracker.logic.Logic;
 import tracker.logic.LogicManager;
-import tracker.model.BookTracker;
-import tracker.model.Model;
-import tracker.model.ModelManager;
-import tracker.model.ReadOnlyBookTracker;
-import tracker.model.ReadOnlyUserPrefs;
-import tracker.model.UserPrefs;
+import tracker.model.*;
+import tracker.model.UserGoal;
 import tracker.model.util.SampleDataUtil;
 import tracker.storage.*;
 import tracker.storage.BookTrackerStorage;
@@ -52,8 +48,9 @@ public class MainApp extends Application {
 
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
-        BookTrackerStorage bookTrackerStorage = new JsonBookTrackerTrackerStorage(userPrefs.getBookTrackerFilePath());
-        storage = new TrackerStorageManager(bookTrackerStorage, userPrefsStorage);
+        BookTrackerStorage bookTrackerStorage = new JsonBookTrackerStorage(userPrefs.getBookTrackerFilePath());
+        UserGoalStorage userGoalStorage = new JsonUserGoalStorage(userPrefs.getUserGoalFilePath());
+        storage = new TrackerStorageManager(bookTrackerStorage, userPrefsStorage, userGoalStorage);
 
         initLogging(config);
 
@@ -70,23 +67,32 @@ public class MainApp extends Application {
      * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
      */
     private Model initModelManager(TrackerStorage storage, ReadOnlyUserPrefs userPrefs) {
-        Optional<ReadOnlyBookTracker> addressBookOptional;
+        Optional<ReadOnlyBookTracker> bookTrackerOptional;
+        Optional<UserGoal> userGoalOptional;
         ReadOnlyBookTracker initialData;
+        ReadOnlyUserGoal initialGoal;
         try {
-            addressBookOptional = storage.readBookTracker();
-            if (!addressBookOptional.isPresent()) {
+            bookTrackerOptional = storage.readBookTracker();
+            userGoalOptional = storage.readUserGoal();
+            if (!bookTrackerOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
             }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleBookTracker);
+            if (!userGoalOptional.isPresent()) {
+                logger.info("UserGoal file not found.");
+            }
+            initialData = bookTrackerOptional.orElseGet(SampleDataUtil::getSampleBookTracker);
+            initialGoal = userGoalOptional.orElse(new UserGoal("0", "0"));
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
             initialData = new BookTracker();
+            initialGoal = new UserGoal("0", "0");
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
             initialData = new BookTracker();
+            initialGoal = new UserGoal("0", "0");
         }
 
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialData, userPrefs, initialGoal);
     }
 
     private void initLogging(Config config) {
@@ -163,13 +169,13 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        logger.info("Starting AddressBook " + MainApp.VERSION);
+        logger.info("Starting Book Tracker " + MainApp.VERSION);
         ui.start(primaryStage);
     }
 
     @Override
     public void stop() {
-        logger.info("============================ [ Stopping Address Book ] =============================");
+        logger.info("============================ [ Stopping Book Tracker ] =============================");
         try {
             storage.saveUserPrefs(model.getUserPrefs());
         } catch (IOException e) {

@@ -9,6 +9,7 @@ import tracker.logic.commands.exceptions.CommandException;
 import tracker.logic.parser.exceptions.ParseException;
 import tracker.model.ReadOnlyBookTracker;
 import tracker.model.book.Book;
+import tracker.model.UserGoal;
 
 /**
  * API of the Logic component
@@ -32,6 +33,10 @@ public interface Logic {
 
     /** Returns an unmodifiable view of the filtered list of persons */
     ObservableList<Book> getFilteredPersonList();
+
+    Book getCurrentlyReading();
+
+    UserGoal getUserGoal();
 
     /**
      * Returns the user prefs' address book file path.

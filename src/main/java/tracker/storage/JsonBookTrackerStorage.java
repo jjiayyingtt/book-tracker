@@ -17,13 +17,13 @@ import tracker.model.ReadOnlyBookTracker;
 /**
  * A class to access AddressBook data stored as a json file on the hard disk.
  */
-public class JsonBookTrackerTrackerStorage implements BookTrackerStorage {
+public class JsonBookTrackerStorage implements BookTrackerStorage {
 
-    private static final Logger logger = LogsCenter.getLogger(JsonBookTrackerTrackerStorage.class);
+    private static final Logger logger = LogsCenter.getLogger(JsonBookTrackerStorage.class);
 
     private Path filePath;
 
-    public JsonBookTrackerTrackerStorage(Path filePath) {
+    public JsonBookTrackerStorage(Path filePath) {
         this.filePath = filePath;
     }
 

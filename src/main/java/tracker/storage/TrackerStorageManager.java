@@ -9,6 +9,7 @@ import tracker.commons.core.LogsCenter;
 import tracker.commons.exceptions.DataConversionException;
 import tracker.model.ReadOnlyBookTracker;
 import tracker.model.ReadOnlyUserPrefs;
+import tracker.model.UserGoal;
 import tracker.model.UserPrefs;
 
 /**
@@ -18,14 +19,16 @@ public class TrackerStorageManager implements TrackerStorage {
 
     private static final Logger logger = LogsCenter.getLogger(TrackerStorageManager.class);
     private BookTrackerStorage bookTrackerStorage;
+    private UserGoalStorage userGoalStorage;
     private UserPrefsStorage userPrefsStorage;
 
     /**
      * Creates a {@code TrackerStorageManager} with the given {@code BookTrackerStorage} and {@code UserPrefStorage}.
      */
-    public TrackerStorageManager(BookTrackerStorage bookTrackerStorage, UserPrefsStorage userPrefsStorage) {
+    public TrackerStorageManager(BookTrackerStorage bookTrackerStorage, UserPrefsStorage userPrefsStorage, UserGoalStorage userGoalStorage) {
         this.bookTrackerStorage = bookTrackerStorage;
         this.userPrefsStorage = userPrefsStorage;
+        this.userGoalStorage = userGoalStorage;
     }
 
     // ================ UserPrefs methods ==============================
@@ -73,6 +76,33 @@ public class TrackerStorageManager implements TrackerStorage {
     public void saveBookTracker(ReadOnlyBookTracker bookTracker, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         bookTrackerStorage.saveBookTracker(bookTracker, filePath);
+    }
+
+    @Override
+    public Path getUserGoalFilePath() {
+        return userGoalStorage.getUserGoalFilePath();
+    }
+
+    @Override
+    public Optional<UserGoal> readUserGoal() throws DataConversionException, IOException {
+        return readUserGoal(userGoalStorage.getUserGoalFilePath());
+    }
+
+    @Override
+    public Optional<UserGoal> readUserGoal(Path filePath) throws DataConversionException, IOException {
+        logger.fine("Attempting to read data from file: " + filePath);
+        return userGoalStorage.readUserGoal(filePath);
+    }
+
+    @Override
+    public void saveUserGoal(UserGoal userGoal) throws IOException {
+        saveUserGoal(userGoal, userGoalStorage.getUserGoalFilePath());
+    }
+
+    @Override
+    public void saveUserGoal(UserGoal userGoal, Path filePath) throws IOException {
+        logger.fine("Attempting to write to data file: " + filePath);
+        userGoalStorage.saveUserGoal(userGoal, filePath);
     }
 
 }

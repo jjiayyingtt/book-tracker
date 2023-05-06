@@ -8,11 +8,12 @@ import tracker.commons.exceptions.DataConversionException;
 import tracker.model.ReadOnlyBookTracker;
 import tracker.model.ReadOnlyUserPrefs;
 import tracker.model.UserPrefs;
+import tracker.model.UserGoal;
 
 /**
  * API of the TrackerStorage component
  */
-public interface TrackerStorage extends BookTrackerStorage, UserPrefsStorage {
+public interface TrackerStorage extends BookTrackerStorage, UserPrefsStorage, UserGoalStorage {
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException;
@@ -28,5 +29,11 @@ public interface TrackerStorage extends BookTrackerStorage, UserPrefsStorage {
 
     @Override
     void saveBookTracker(ReadOnlyBookTracker bookTracker) throws IOException;
+
+    @Override
+    Optional<UserGoal> readUserGoal() throws DataConversionException, IOException;
+
+    @Override
+    void saveUserGoal(UserGoal userGoal) throws IOException;
 
 }

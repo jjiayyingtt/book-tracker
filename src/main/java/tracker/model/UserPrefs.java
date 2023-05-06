@@ -15,6 +15,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
     private Path bookTrackerFilePath = Paths.get("data" , "booktracker.json");
+    private Path userGoalFilePath = Paths.get("data" , "usergoal.json");
 
     /**
      * Creates a {@code UserPrefs} with default values.
@@ -36,6 +37,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         requireNonNull(newUserPrefs);
         setGuiSettings(newUserPrefs.getGuiSettings());
         setBookTrackerFilePath(newUserPrefs.getBookTrackerFilePath());
+        setUserGoalFilePath(newUserPrefs.getUserGoalFilePath());
     }
 
     public GuiSettings getGuiSettings() {
@@ -54,6 +56,15 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     public void setBookTrackerFilePath(Path bookTrackerFilePath) {
         requireNonNull(bookTrackerFilePath);
         this.bookTrackerFilePath = bookTrackerFilePath;
+    }
+
+    public Path getUserGoalFilePath() {
+        return userGoalFilePath;
+    }
+
+    public void setUserGoalFilePath(Path userGoalFilePath) {
+        requireNonNull(userGoalFilePath);
+        this.userGoalFilePath = userGoalFilePath;
     }
 
     @Override

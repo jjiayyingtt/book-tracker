@@ -3,8 +3,10 @@ package tracker.ui;
 import static java.util.Objects.requireNonNull;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Region;
+import tracker.model.book.Book;
 
 /**
  * A ui for the currently reading display.
@@ -14,14 +16,20 @@ public class CurrentlyReadingDisplay extends UiPart<Region> {
     private static final String FXML = "CurrentlyReadingDisplay.fxml";
 
     @FXML
-    private TextArea currentlyReadingDisplay;
+    private Label title;
+    @FXML
+    private ProgressBar progressBar;
 
-    public CurrentlyReadingDisplay() {
+
+    public CurrentlyReadingDisplay(Book currentlyReading) {
         super(FXML);
+        String stringToDisplay = "Currently Reading:\n" + currentlyReading.getTitle().toString();
+        title.setText(stringToDisplay);
+        progressBar.setProgress(Double.parseDouble(currentlyReading.getProgress().value) / 100);
     }
 
-    public void setFeedbackToUser(String feedbackToUser) {
+    /*public void setCurrentlyReadingDisplay(Book currentlyReading) {
         requireNonNull(feedbackToUser);
         currentlyReadingDisplay.setText(feedbackToUser);
-    }
+    }*/
 }

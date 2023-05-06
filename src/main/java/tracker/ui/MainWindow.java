@@ -30,6 +30,8 @@ public class MainWindow extends UiPart<Stage> {
     private BookListPanel bookListPanel;
     private ResultDisplay resultDisplay;
     private CurrentlyReadingDisplay currentlyReadingDisplay;
+    private UserGoalDisplay userGoalDisplay;
+
     private HelpWindow helpWindow;
 
     private SummaryWindow summaryWindow;
@@ -46,6 +48,12 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane personListPanelPlaceholder;
+
+    @FXML
+    private StackPane currentlyReadingPlaceholder;
+
+    @FXML
+    private StackPane userGoalPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -117,6 +125,12 @@ public class MainWindow extends UiPart<Stage> {
     void fillInnerParts() {
         bookListPanel = new BookListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(bookListPanel.getRoot());
+
+        currentlyReadingDisplay = new CurrentlyReadingDisplay(logic.getCurrentlyReading());
+        currentlyReadingPlaceholder.getChildren().add(currentlyReadingDisplay.getRoot());
+
+        userGoalDisplay = new UserGoalDisplay(logic.getUserGoal());
+        userGoalPlaceholder.getChildren().add(userGoalDisplay.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());

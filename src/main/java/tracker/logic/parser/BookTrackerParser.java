@@ -68,6 +68,9 @@ public class BookTrackerParser {
         case SummaryCommand.COMMAND_WORD:
             return new SummaryCommand();
 
+        case SetGoalCommand.COMMAND_WORD:
+            return new SetGoalCommandParser().parse(arguments);
+
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
 

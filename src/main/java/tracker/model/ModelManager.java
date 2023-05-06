@@ -21,23 +21,25 @@ public class ModelManager implements Model {
 
     private final BookTracker bookTracker;
     private final UserPrefs userPrefs;
+    private final UserGoal userGoal;
     private final FilteredList<Book> filteredPersons;
 
     /**
      * Initializes a ModelManager with the given bookTracker and userPrefs.
      */
-    public ModelManager(ReadOnlyBookTracker bookTracker, ReadOnlyUserPrefs userPrefs) {
-        requireAllNonNull(bookTracker, userPrefs);
+    public ModelManager(ReadOnlyBookTracker bookTracker, ReadOnlyUserPrefs userPrefs, ReadOnlyUserGoal userGoal) {
+        requireAllNonNull(bookTracker, userPrefs, userGoal);
 
-        logger.fine("Initializing with book tracker: " + bookTracker + " and user prefs " + userPrefs);
+        logger.fine("Initializing with book tracker: " + bookTracker + " and user prefs " + userPrefs + "and user goal " + userGoal);
 
         this.bookTracker = new BookTracker(bookTracker);
         this.userPrefs = new UserPrefs(userPrefs);
+        this.userGoal = new UserGoal(userGoal);
         filteredPersons = new FilteredList<>(this.bookTracker.getBookList());
     }
 
     public ModelManager() {
-        this(new BookTracker(), new UserPrefs());
+        this(new BookTracker(), new UserPrefs(), new UserGoal());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -70,9 +72,20 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void setBookTrackerFilePath(Path addressBookFilePath) {
-        requireNonNull(addressBookFilePath);
-        userPrefs.setBookTrackerFilePath(addressBookFilePath);
+    public void setBookTrackerFilePath(Path bookTrackerFilePath) {
+        requireNonNull(bookTrackerFilePath);
+        userPrefs.setBookTrackerFilePath(bookTrackerFilePath);
+    }
+
+    @Override
+    public Path getUserGoalFilePath() {
+        return userPrefs.getUserGoalFilePath();
+    }
+
+    @Override
+    public void setUserGoalFilePath(Path userGoalFilePath) {
+        requireNonNull(userGoalFilePath);
+        userPrefs.setUserGoalFilePath(userGoalFilePath);
     }
 
     //=========== AddressBook ================================================================================
@@ -117,6 +130,32 @@ public class ModelManager implements Model {
         return bookTracker.size();
     }
 
+    @Override
+    public UserGoal getUserGoal() {
+        return userGoal;
+    }
+
+    @Override
+    public void setGoal(String goal) {
+        userGoal.setGoal(goal);
+    }
+
+    @Override
+    public String getGoal() {
+        return userGoal.getGoal();
+    }
+
+    @Override
+    public void setCurrent(String current) {
+        userGoal.setCurrent(current);
+    }
+
+    @Override
+    public String getCurrent() {
+        return userGoal.getCurrent();
+    }
+
+    @Override
     public Book getCurrentlyReading() {
         return bookTracker.getCurrentlyReading();
     }
@@ -131,6 +170,7 @@ public class ModelManager implements Model {
     public ObservableList<Book> getFilteredBookList() {
         return filteredPersons;
     }
+
 
     @Override
     public void sortBookList(String type, boolean isAscending) {

@@ -24,7 +24,7 @@ public class StorageManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonBookTrackerTrackerStorage addressBookStorage = new JsonBookTrackerTrackerStorage(getTempFilePath("ab"));
+        JsonBookTrackerStorage addressBookStorage = new JsonBookTrackerStorage(getTempFilePath("ab"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
         storageManager = new TrackerStorageManager(addressBookStorage, userPrefsStorage);
     }
@@ -51,7 +51,7 @@ public class StorageManagerTest {
     public void addressBookReadSave() throws Exception {
         /*
          * Note: This is an integration test that verifies the TrackerStorageManager is properly wired to the
-         * {@link JsonBookTrackerTrackerStorage} class.
+         * {@link JsonBookTrackerStorage} class.
          * More extensive testing of UserPref saving/reading is done in {@link JsonBookTrackerStorageTest} class.
          */
         BookTracker original = getTypicalAddressBook();

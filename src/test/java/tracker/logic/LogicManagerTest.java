@@ -24,7 +24,7 @@ import tracker.model.ModelManager;
 import tracker.model.ReadOnlyBookTracker;
 import tracker.model.UserPrefs;
 import tracker.model.book.Book;
-import tracker.storage.JsonBookTrackerTrackerStorage;
+import tracker.storage.JsonBookTrackerStorage;
 import tracker.storage.JsonUserPrefsStorage;
 import tracker.storage.TrackerStorageManager;
 import tracker.testutil.PersonBuilder;
@@ -40,8 +40,8 @@ public class LogicManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonBookTrackerTrackerStorage addressBookStorage =
-                new JsonBookTrackerTrackerStorage(temporaryFolder.resolve("addressBook.json"));
+        JsonBookTrackerStorage addressBookStorage =
+                new JsonBookTrackerStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         TrackerStorageManager storage = new TrackerStorageManager(addressBookStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
@@ -67,9 +67,9 @@ public class LogicManagerTest {
 
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
-        // Setup LogicManager with JsonBookTrackerTrackerIoExceptionThrowingStub
-        JsonBookTrackerTrackerStorage addressBookStorage =
-                new JsonBookTrackerTrackerIoExceptionThrowingStub(temporaryFolder.resolve("ioExceptionAddressBook.json"));
+        // Setup LogicManager with JsonBookTrackerIoExceptionThrowingStub
+        JsonBookTrackerStorage addressBookStorage =
+                new JsonBookTrackerIoExceptionThrowingStub(temporaryFolder.resolve("ioExceptionAddressBook.json"));
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
         TrackerStorageManager storage = new TrackerStorageManager(addressBookStorage, userPrefsStorage);
@@ -147,8 +147,8 @@ public class LogicManagerTest {
     /**
      * A stub class to throw an {@code IOException} when the save method is called.
      */
-    private static class JsonBookTrackerTrackerIoExceptionThrowingStub extends JsonBookTrackerTrackerStorage {
-        private JsonBookTrackerTrackerIoExceptionThrowingStub(Path filePath) {
+    private static class JsonBookTrackerIoExceptionThrowingStub extends JsonBookTrackerStorage {
+        private JsonBookTrackerIoExceptionThrowingStub(Path filePath) {
             super(filePath);
         }
 

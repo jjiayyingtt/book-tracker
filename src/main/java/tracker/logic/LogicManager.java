@@ -14,6 +14,7 @@ import tracker.logic.parser.BookTrackerParser;
 import tracker.logic.parser.exceptions.ParseException;
 import tracker.model.Model;
 import tracker.model.ReadOnlyBookTracker;
+import tracker.model.UserGoal;
 import tracker.model.book.Book;
 import tracker.storage.TrackerStorage;
 
@@ -46,6 +47,7 @@ public class LogicManager implements Logic {
 
         try {
             storage.saveBookTracker(model.getBookTracker());
+            storage.saveUserGoal(model.getUserGoal());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
@@ -61,6 +63,16 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Book> getFilteredPersonList() {
         return model.getFilteredBookList();
+    }
+
+    @Override
+    public Book getCurrentlyReading() {
+        return model.getCurrentlyReading();
+    }
+
+    @Override
+    public UserGoal getUserGoal() {
+        return model.getUserGoal();
     }
 
     @Override

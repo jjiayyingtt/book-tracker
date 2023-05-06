@@ -83,6 +83,10 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered book list */
     ObservableList<Book> getFilteredBookList();
 
+    Book getCurrentlyReading();
+
+
+
     /** Returns an unmodifiable view of the book list, sorted by date added */
     void sortBookList(String type, boolean ascending);
 
@@ -91,4 +95,13 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredBookList(Predicate<Book> predicate);
+
+    /**** Usr Goal API ****/
+    Path getUserGoalFilePath();
+    void setUserGoalFilePath(Path userGoalFilePath);
+    UserGoal getUserGoal();
+    void setGoal(String goal);
+    String getGoal();
+    void setCurrent(String current);
+    String getCurrent();
 }

@@ -33,7 +33,7 @@ public class BookTracker implements ReadOnlyBookTracker {
     public BookTracker() {}
 
     /**
-     * Creates an AddressBook using the Persons in the {@code toBeCopied}
+     * Creates an Book Tracker using the Books in the {@code toBeCopied}
      */
     public BookTracker(ReadOnlyBookTracker toBeCopied) {
         this();
@@ -57,6 +57,7 @@ public class BookTracker implements ReadOnlyBookTracker {
         requireNonNull(newData);
         setBooks(newData.getBookList());
     }
+
 
     public Book getCurrentlyReading() {
         List<Book> sortedOldList = filterCurrentlyReading();
