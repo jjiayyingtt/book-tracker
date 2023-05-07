@@ -3,6 +3,7 @@ package tracker.ui;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import tracker.commons.core.GuiSettings;
@@ -35,7 +36,8 @@ public class MainWindow extends UiPart<Stage> {
 
     private HelpWindow helpWindow;
 
-    private SummaryWindow summaryWindow;
+    private AddBookWindow addBookWindow;
+
     private Book currentlyReading; // refactor this
 
     private UserGoal userGoal;
@@ -64,6 +66,9 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane statusbarPlaceholder;
 
+    @FXML
+    Button btn_addBook;
+
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
      */
@@ -80,7 +85,7 @@ public class MainWindow extends UiPart<Stage> {
         //setAccelerators();
 
         helpWindow = new HelpWindow();
-        summaryWindow = new SummaryWindow();
+        addBookWindow = new AddBookWindow();
     }
 
     public Stage getPrimaryStage() {
@@ -178,7 +183,7 @@ public class MainWindow extends UiPart<Stage> {
      * Opens the summary window or focuses on it if it's already opened.
      */
     @FXML
-    public void handleSummary() {
+    public void handleAddBook() {
         try {
             logic.execute("summary");
         } catch (CommandException e) {
@@ -186,10 +191,10 @@ public class MainWindow extends UiPart<Stage> {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        if (!summaryWindow.isShowing()) {
-            summaryWindow.show();
+        if (!addBookWindow.isShowing()) {
+            addBookWindow.show();
         } else {
-            summaryWindow.focus();
+            addBookWindow.focus();
         }
     }
 
@@ -202,13 +207,13 @@ public class MainWindow extends UiPart<Stage> {
                 (int) primaryStage.getX(), (int) primaryStage.getY());
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
-        summaryWindow.hide();
+        addBookWindow.hide();
         primaryStage.hide();
     }
 
     @FXML
     private void addBook(){
-        handleSummary();
+        handleAddBook();
     }
 
     public void setCurrentlyReading(Book currentlyReading) {
@@ -242,15 +247,15 @@ public class MainWindow extends UiPart<Stage> {
             }
 
             if (commandResult.isShowSummary()) {
-                handleSummary();
+                handleAddBook();
             }
 
             if (commandResult.isExit()) {
                 handleExit();
             }
-            if (summaryWindow.isShowing()) {
+            if (addBookWindow.isShowing()) {
                 logic.execute("summary");
-                summaryWindow.update();
+                addBookWindow.update();
             }
             setCurrentlyReading(logic.getCurrentlyReading());
             setUserGoal(logic.getUserGoal());

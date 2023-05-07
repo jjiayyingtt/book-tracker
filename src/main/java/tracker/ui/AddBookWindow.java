@@ -10,14 +10,14 @@ import tracker.commons.core.LogsCenter;
 /**
  * Controller for a help page
  */
-public class SummaryWindow extends UiPart<Stage> {
+public class AddBookWindow extends UiPart<Stage> {
 
     public static final String TITLE_MESSAGE = "Title: ";
     public static final String AUTHOR_MESSAGE= "Author name: ";
     public static final String NOTE = "Note: ";
 
-    private static final Logger logger = LogsCenter.getLogger(SummaryWindow.class);
-    private static final String FXML = "SummaryWindow.fxml";
+    private static final Logger logger = LogsCenter.getLogger(AddBookWindow.class);
+    private static final String FXML = "AddBookWindow.fxml";
     private static int SIZE;
     private static String POTENTIAL_EARNINGS;
     private static String COMPANIES;
@@ -39,14 +39,14 @@ public class SummaryWindow extends UiPart<Stage> {
      *
      * @param root Stage to use as the root of the HelpWindow.
      */
-    public SummaryWindow(Stage root) {
+    public AddBookWindow(Stage root) {
         super(FXML, root);
     }
 
     /**
      * Creates a new HelpWindow.
      */
-    public SummaryWindow() {
+    public AddBookWindow() {
         this(new Stage());
     }
 
@@ -101,5 +101,7 @@ public class SummaryWindow extends UiPart<Stage> {
     public void focus() {
         getRoot().requestFocus();
     }
+
+
 
 }
