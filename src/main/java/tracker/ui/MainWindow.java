@@ -11,6 +11,7 @@ import tracker.logic.Logic;
 import tracker.logic.commands.CommandResult;
 import tracker.logic.commands.exceptions.CommandException;
 import tracker.logic.parser.exceptions.ParseException;
+import tracker.model.UserGoal;
 import tracker.model.book.Book;
 
 /**
@@ -35,7 +36,9 @@ public class MainWindow extends UiPart<Stage> {
     private HelpWindow helpWindow;
 
     private SummaryWindow summaryWindow;
-    private Book currentlyReading;
+    private Book currentlyReading; // refactor this
+
+    private UserGoal userGoal;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -208,10 +211,14 @@ public class MainWindow extends UiPart<Stage> {
         handleSummary();
     }
 
-    // todo need better way of doing this.
     public void setCurrentlyReading(Book currentlyReading) {
         this.currentlyReading = currentlyReading;
         this.currentlyReadingDisplay.update(this.currentlyReading);
+    }
+
+    public void setUserGoal(UserGoal userGoal) {
+        this.userGoal = userGoal;
+        this.userGoalDisplay.update(this.userGoal);
     }
 
     public BookListPanel getPersonListPanel() {
@@ -246,6 +253,7 @@ public class MainWindow extends UiPart<Stage> {
                 summaryWindow.update();
             }
             setCurrentlyReading(logic.getCurrentlyReading());
+            setUserGoal(logic.getUserGoal());
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("Invalid command: " + commandText);

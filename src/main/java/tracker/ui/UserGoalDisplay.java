@@ -25,15 +25,14 @@ public class UserGoalDisplay extends UiPart<Region> {
 
     public UserGoalDisplay(UserGoal userGoal) {
         super(FXML);
+        update(userGoal);
+    }
+
+    public void update(UserGoal userGoal) {
         String stringToDisplay = "Reading Challenge:\n" + userGoal.getCurrent() + "/" + userGoal.getGoal();
         progress.setText(stringToDisplay);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         todayDate.setText(dtf.format(now));
     }
-
-    /*public void setCurrentlyReadingDisplay(Book currentlyReading) {
-        requireNonNull(feedbackToUser);
-        currentlyReadingDisplay.setText(feedbackToUser);
-    }*/
 }
