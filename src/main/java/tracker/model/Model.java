@@ -102,6 +102,6 @@ public interface Model {
     UserGoal getUserGoal();
     void setGoal(String goal);
     String getGoal();
-    void setCurrent(String current);
+    void setCurrent();
     String getCurrent();
 }

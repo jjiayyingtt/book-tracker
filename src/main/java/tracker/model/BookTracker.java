@@ -3,6 +3,10 @@ package tracker.model;
 import static java.util.Objects.requireNonNull;
 import static tracker.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Year;
+import java.time.ZoneId;
 import java.util.*;
 
 import javafx.collections.FXCollections;
@@ -85,6 +89,28 @@ public class BookTracker implements ReadOnlyBookTracker {
         } else {
             this.currentlyReading = null;
         }
+    }
+
+    public String getCurrentBooksRead() {
+        int currentBooksRead = 0;
+        int year = Year.now().getValue();
+        Iterator<Book> bookIterator = books.iterator();
+        while (bookIterator.hasNext()) {
+            Book temp = bookIterator.next();
+            if (temp.getDateFinished().value.equals("-")){
+                continue;
+            }
+            try {
+                if (temp.getCategory().getCategoryValue() == 2 &&
+                        new SimpleDateFormat("yyyy/MM/dd").parse(temp.getDateFinished().value).toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear()
+                                == year) {
+                    currentBooksRead++;
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return String.valueOf(currentBooksRead);
     }
 
     /**

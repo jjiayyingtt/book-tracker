@@ -133,6 +133,7 @@ public class ModelManager implements Model {
 
     @Override
     public UserGoal getUserGoal() {
+        setCurrent();
         return userGoal;
     }
 
@@ -147,8 +148,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void setCurrent(String current) {
-        userGoal.setCurrent(current);
+    public void setCurrent() {
+        userGoal.setCurrent(bookTracker.getCurrentBooksRead());
     }
 
     @Override

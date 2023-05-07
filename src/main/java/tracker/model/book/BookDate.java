@@ -25,7 +25,7 @@ public class BookDate implements Comparable<BookDate> {
 
     private Date getDateTime() {
         try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(value);
+            return new SimpleDateFormat("yyyy/MM/dd").parse(value);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

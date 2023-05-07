@@ -17,12 +17,6 @@ public class UserGoal implements ReadOnlyUserGoal{
 
     public UserGoal() {};
 
-    public static UserGoal getInstance() {
-        if (theOne == null) {
-            theOne = new UserGoal("0", "0");
-        }
-        return theOne;
-    }
     public void setGoal(String goal) {
         this.goal = goal;
     }

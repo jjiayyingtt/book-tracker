@@ -37,7 +37,7 @@ public class DateAdded extends BookDate {
 
     private Date getDateTime() {
         try {
-            return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(value);
+            return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(value);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
