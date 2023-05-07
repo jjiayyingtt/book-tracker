@@ -29,7 +29,6 @@ public class BookDate implements Comparable<BookDate> {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public boolean isBeforeDate(BookDate date) {

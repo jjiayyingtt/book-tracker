@@ -60,7 +60,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         // check date finished only for read book
-        if (category.getCategoryValue() != 2 && dateFinished.toString().equals("-")) {
+        if (category.getCategoryValue() != 2 && !dateFinished.toString().equals("-")) {
             throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_DATEFINISHED, AddCommand.MESSAGE_USAGE));
         }
 

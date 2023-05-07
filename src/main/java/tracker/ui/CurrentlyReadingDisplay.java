@@ -28,8 +28,10 @@ public class CurrentlyReadingDisplay extends UiPart<Region> {
         progressBar.setProgress(Double.parseDouble(currentlyReading.getProgress().value) / 100);
     }
 
-    /*public void setCurrentlyReadingDisplay(Book currentlyReading) {
-        requireNonNull(feedbackToUser);
-        currentlyReadingDisplay.setText(feedbackToUser);
-    }*/
+    public CurrentlyReadingDisplay() {
+        super(FXML);
+        String stringToDisplay = "Currently Reading:\n";
+        title.setText(stringToDisplay);
+        progressBar.setProgress(0 / 100);
+    }
 }

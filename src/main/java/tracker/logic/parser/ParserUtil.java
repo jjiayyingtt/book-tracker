@@ -3,6 +3,7 @@ package tracker.logic.parser;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
@@ -116,7 +117,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code AddedDate} is invalid.
      */
     public static DateAdded parseDateAdded() throws ParseException {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         return new DateAdded(dtf.format(now));
     }

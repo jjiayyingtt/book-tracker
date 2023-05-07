@@ -156,7 +156,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Book getCurrentlyReading() {
+    public Book getCurrentlyReading() throws IndexOutOfBoundsException {
         return bookTracker.getCurrentlyReading();
     }
 

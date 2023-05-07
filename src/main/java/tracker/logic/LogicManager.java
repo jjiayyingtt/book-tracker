@@ -66,7 +66,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Book getCurrentlyReading() {
+    public Book getCurrentlyReading() throws IndexOutOfBoundsException {
         return model.getCurrentlyReading();
     }
 

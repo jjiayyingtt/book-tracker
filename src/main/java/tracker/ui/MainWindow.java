@@ -126,8 +126,13 @@ public class MainWindow extends UiPart<Stage> {
         bookListPanel = new BookListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(bookListPanel.getRoot());
 
-        currentlyReadingDisplay = new CurrentlyReadingDisplay(logic.getCurrentlyReading());
-        currentlyReadingPlaceholder.getChildren().add(currentlyReadingDisplay.getRoot());
+        try {
+            currentlyReadingDisplay = new CurrentlyReadingDisplay(logic.getCurrentlyReading());
+            currentlyReadingPlaceholder.getChildren().add(currentlyReadingDisplay.getRoot());
+        } catch (IndexOutOfBoundsException e) {
+            currentlyReadingDisplay = new CurrentlyReadingDisplay();
+            currentlyReadingPlaceholder.getChildren().add(currentlyReadingDisplay.getRoot());
+        }
 
         userGoalDisplay = new UserGoalDisplay(logic.getUserGoal());
         userGoalPlaceholder.getChildren().add(userGoalDisplay.getRoot());

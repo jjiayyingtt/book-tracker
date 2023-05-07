@@ -5,6 +5,7 @@ import static tracker.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.*;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import tracker.model.book.Book;
 import tracker.model.book.UniqueBookList;
@@ -59,17 +60,19 @@ public class BookTracker implements ReadOnlyBookTracker {
     }
 
 
-    public Book getCurrentlyReading() {
-        List<Book> sortedOldList = filterCurrentlyReading();
-        sortedOldList = this.getBookList()
-                .sorted(Comparator.comparing(Book::getDateAdded).reversed());
-        currentlyReading = sortedOldList.get(0);
+    public Book getCurrentlyReading() throws IndexOutOfBoundsException {
+        ObservableList<Book> sortedOldList = filterCurrentlyReading();
+        sortedOldList = sortedOldList.sorted(Comparator.comparing(Book::getDateAdded).reversed());
+        if (!sortedOldList.isEmpty()) {
+            currentlyReading = sortedOldList.get(0);
+        } else {
+            throw new IndexOutOfBoundsException("No currently reading, because book list is empty.");
+        }
         return currentlyReading;
     }
 
-    public List<Book> filterCurrentlyReading() {
-        List<Book> filteredOldList = new ArrayList<>();
-        // naive todo make it not naive.
+    public ObservableList<Book> filterCurrentlyReading() {
+        ObservableList<Book> filteredOldList = FXCollections.observableArrayList();
         Iterator<Book> bookIterator = books.iterator();
         while (bookIterator.hasNext()) {
             Book temp = bookIterator.next();

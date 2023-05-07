@@ -1,5 +1,9 @@
 package tracker.model.book;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static java.util.Objects.requireNonNull;
 import static tracker.commons.util.AppUtil.checkArgument;
 
@@ -29,6 +33,28 @@ public class DateAdded extends BookDate {
      */
     public static boolean isValidDate(String test) {
         return true;
+    }
+
+    private Date getDateTime() {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(value);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isBeforeDate(DateAdded date) {
+        if (getDateTime().compareTo(date.getDateTime()) > 0) {
+            return false;
+        } else if (getDateTime().compareTo(date.getDateTime()) < 0) {
+            return true;
+        } else {
+            return true;
+        }
+    }
+    @Override
+    public int compareTo(BookDate o) {
+        return getDateTime().compareTo(((DateAdded) o).getDateTime());
     }
 
     @Override
