@@ -112,16 +112,17 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addBook(Book person) {
-        bookTracker.addBook(person);
+    public void addBook(Book book) {
+        bookTracker.addBook(book);
         updateFilteredBookList(PREDICATE_SHOW_ALL_BOOKS);
+        bookTracker.updateCurrentlyReading();
     }
 
     @Override
     public void setBook(Book target, Book editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         bookTracker.setBook(target, editedPerson);
+        bookTracker.updateCurrentlyReading();
     }
 
     @Override
@@ -156,7 +157,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Book getCurrentlyReading() throws IndexOutOfBoundsException {
+    public Book getCurrentlyReading() {
         return bookTracker.getCurrentlyReading();
     }
 

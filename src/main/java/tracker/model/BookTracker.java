@@ -60,14 +60,8 @@ public class BookTracker implements ReadOnlyBookTracker {
     }
 
 
-    public Book getCurrentlyReading() throws IndexOutOfBoundsException {
-        ObservableList<Book> sortedOldList = filterCurrentlyReading();
-        sortedOldList = sortedOldList.sorted(Comparator.comparing(Book::getDateAdded).reversed());
-        if (!sortedOldList.isEmpty()) {
-            currentlyReading = sortedOldList.get(0);
-        } else {
-            throw new IndexOutOfBoundsException("No currently reading, because book list is empty.");
-        }
+    public Book getCurrentlyReading() {
+        updateCurrentlyReading();
         return currentlyReading;
     }
 
@@ -81,6 +75,16 @@ public class BookTracker implements ReadOnlyBookTracker {
             }
         }
         return filteredOldList;
+    }
+
+    public void updateCurrentlyReading() {
+        ObservableList<Book> sortedOldList = filterCurrentlyReading();
+        sortedOldList = sortedOldList.sorted(Comparator.comparing(Book::getDateAdded).reversed());
+        if (!sortedOldList.isEmpty()) {
+            this.currentlyReading = sortedOldList.get(0);
+        } else {
+            this.currentlyReading = null;
+        }
     }
 
     /**

@@ -126,13 +126,9 @@ public class MainWindow extends UiPart<Stage> {
         bookListPanel = new BookListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(bookListPanel.getRoot());
 
-        try {
-            currentlyReadingDisplay = new CurrentlyReadingDisplay(logic.getCurrentlyReading());
-            currentlyReadingPlaceholder.getChildren().add(currentlyReadingDisplay.getRoot());
-        } catch (IndexOutOfBoundsException e) {
-            currentlyReadingDisplay = new CurrentlyReadingDisplay();
-            currentlyReadingPlaceholder.getChildren().add(currentlyReadingDisplay.getRoot());
-        }
+        currentlyReadingDisplay = new CurrentlyReadingDisplay(logic.getCurrentlyReading());
+        currentlyReadingPlaceholder.getChildren().add(currentlyReadingDisplay.getRoot());
+
 
         userGoalDisplay = new UserGoalDisplay(logic.getUserGoal());
         userGoalPlaceholder.getChildren().add(userGoalDisplay.getRoot());
@@ -215,6 +211,7 @@ public class MainWindow extends UiPart<Stage> {
     // todo need better way of doing this.
     public void setCurrentlyReading(Book currentlyReading) {
         this.currentlyReading = currentlyReading;
+        this.currentlyReadingDisplay.update(this.currentlyReading);
     }
 
     public BookListPanel getPersonListPanel() {
@@ -248,7 +245,7 @@ public class MainWindow extends UiPart<Stage> {
                 logic.execute("summary");
                 summaryWindow.update();
             }
-
+            setCurrentlyReading(logic.getCurrentlyReading());
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("Invalid command: " + commandText);

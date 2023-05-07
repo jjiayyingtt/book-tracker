@@ -29,7 +29,7 @@ public interface Logic {
      *
      * @see tracker.model.Model#getBookTracker()
      */
-    ReadOnlyBookTracker getAddressBook();
+    ReadOnlyBookTracker getBookTracker();
 
     /** Returns an unmodifiable view of the filtered list of persons */
     ObservableList<Book> getFilteredPersonList();

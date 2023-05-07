@@ -2,6 +2,9 @@ package tracker.ui;
 
 import static java.util.Objects.requireNonNull;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -23,15 +26,20 @@ public class CurrentlyReadingDisplay extends UiPart<Region> {
 
     public CurrentlyReadingDisplay(Book currentlyReading) {
         super(FXML);
-        String stringToDisplay = "Currently Reading:\n" + currentlyReading.getTitle().toString();
-        title.setText(stringToDisplay);
-        progressBar.setProgress(Double.parseDouble(currentlyReading.getProgress().value) / 100);
+        update(currentlyReading);
     }
 
-    public CurrentlyReadingDisplay() {
-        super(FXML);
-        String stringToDisplay = "Currently Reading:\n";
-        title.setText(stringToDisplay);
-        progressBar.setProgress(0 / 100);
+    public void update(Book currentlyReading) {
+        if (currentlyReading != null) {
+            String stringToDisplay = "Currently Reading:\n" + currentlyReading.getTitle().toString();
+            title.setText(stringToDisplay);
+            progressBar.setProgress(Double.parseDouble(currentlyReading.getProgress().value) / 100);
+        } else {
+            String stringToDisplay = "Currently Reading:\n";
+            title.setText(stringToDisplay);
+            progressBar.setProgress(0 / 100);
+        }
     }
+
+
 }

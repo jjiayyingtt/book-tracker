@@ -56,7 +56,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ReadOnlyBookTracker getAddressBook() {
+    public ReadOnlyBookTracker getBookTracker() {
         return model.getBookTracker();
     }
 
@@ -66,7 +66,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public Book getCurrentlyReading() throws IndexOutOfBoundsException {
+    public Book getCurrentlyReading() {
         return model.getCurrentlyReading();
     }
 
