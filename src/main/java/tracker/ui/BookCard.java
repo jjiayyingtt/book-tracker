@@ -35,7 +35,11 @@ public class BookCard extends UiPart<Region> {
     @FXML
     private Label author;
     @FXML
+    private Label category;
+    @FXML
     private Label dateAdded;
+    @FXML
+    private Label dates;
     @FXML
     private Label rating;
 
@@ -68,11 +72,11 @@ public class BookCard extends UiPart<Region> {
         title.setText("Title: " + book.getTitle().fullTitle);
         author.setText("Author: " + book.getAuthor().value);
         //note.setText("Note: " + book.getNote().value);
-        //category.setText("Category: " + book.getCategory().value);
+        category.setText("Category: " + book.getCategory().value);
         //progress.setText("Progress: " + book.getProgress().value + "%");
         dateAdded.setText("Date Added: " + book.getDateAdded().value);
-        //dateStarted.setText("Date Started: " + book.getDateStarted().value);
-        //dateFinished.setText("Date Finished: " + book.getDateFinished().value);
+        String datesText = "Date Started: " + book.getDateStarted().value + " | " + "Date Finished: " + book.getDateFinished().value;
+        dates.setText(datesText);
         rating.setText("Rating: " + book.getRating().value);
         book.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))

@@ -28,7 +28,9 @@
         <Label fx:id="title" text="\$first" styleClass="cell_big_label" />
       </HBox>
       <Label fx:id="author" styleClass="cell_small_label" text="\$author" />
+      <Label fx:id="category" styleClass="cell_small_label" text="\$category" />
       <Label fx:id="rating" styleClass="cell_small_label" text="\$rating" />
+      <Label fx:id="dates" styleClass="cell_small_label" text="\$dates" />
       <Label fx:id="dateAdded" styleClass="cell_small_label" text="\$dateAdded" />
       <FlowPane fx:id="tags" />
     </VBox>
