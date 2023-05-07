@@ -1,9 +1,11 @@
 package tracker.ui;
 
+import java.time.LocalDate;
 import java.util.logging.Logger;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tracker.commons.core.LogsCenter;
 
@@ -22,18 +24,38 @@ public class AddBookWindow extends UiPart<Stage> {
     private static String POTENTIAL_EARNINGS;
     private static String COMPANIES;
     private static String TAGS;
-    @FXML
-    private Label countMessage;
 
     @FXML
-    private Label tagMessage;
+    private TextField titleInp;
+
 
     @FXML
-    private Label potentialEarnings;
+    private TextField totalPageInp;
+
     @FXML
-    private Label companies;
+    private TextField authorInp;
+
     @FXML
-    private Label tags;
+    private TextField pageReadInp;
+
+    @FXML
+    private ChoiceBox categoryInp;
+
+    @FXML
+    private ComboBox tagsInp;
+
+    @FXML
+    private DatePicker datestartedInp;
+
+    @FXML
+    private DatePicker datefinishedInp;
+
+    @FXML
+    private TextField ratingInp;
+
+    @FXML
+    private TextField notesInp;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -102,6 +124,18 @@ public class AddBookWindow extends UiPart<Stage> {
         getRoot().requestFocus();
     }
 
+    public void addBook() {
+        String title = titleInp.getText();
+        String totalPage = totalPageInp.getText();
+        String author = authorInp.getText();
+        String pageRead = pageReadInp.getText();
+        String category = categoryInp.getSelectionModel().getSelectedItem().toString();
+        //ObservableList<String> tags = tagsInp.getItems(); //tags doesnt work for now
+        LocalDate dateStarted = datestartedInp.getValue();
+        LocalDate dateFinished = datefinishedInp.getValue();
+        String rating = ratingInp.getText();
+        String notes = notesInp.getText();
 
+    }
 
 }
