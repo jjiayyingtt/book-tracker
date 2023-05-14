@@ -11,6 +11,8 @@ public class CliSyntax {
     public static final Prefix PREFIX_NOTE = new Prefix("n/");
     public static final Prefix PREFIX_CATEGORY = new Prefix("c/");
     public static final Prefix PREFIX_PROGRESS = new Prefix("p/");
+    public static final Prefix PREFIX_PAGE_READ = new Prefix("pr/");
+    public static final Prefix PREFIX_TOTAL_PAGE = new Prefix("tp/");
     public static final Prefix PREFIX_DATEADDED = new Prefix("d/");
     public static final Prefix PREFIX_DATESTARTED = new Prefix("ds/");
     public static final Prefix PREFIX_DATEFINISHED = new Prefix("df/");

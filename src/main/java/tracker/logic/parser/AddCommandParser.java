@@ -26,6 +26,9 @@ public class AddCommandParser implements Parser<AddCommand> {
     public static final String MESSAGE_CONSTRAINTS_FOR_RATING =
             "Only read books can have rating.";
 
+    public static final String MESSAGE_CONSTRAINTS_FOR_PAGE =
+            "Page Read and Total Page need to be numeric number where Page Read/Total Page <= 1.";
+
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
@@ -34,20 +37,29 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_NOTE, PREFIX_CATEGORY,
-                        PREFIX_PROGRESS, PREFIX_DATEADDED, PREFIX_DATESTARTED, PREFIX_DATEFINISHED,
+                        PREFIX_PROGRESS, PREFIX_PAGE_READ, PREFIX_TOTAL_PAGE, PREFIX_DATEADDED, PREFIX_DATESTARTED, PREFIX_DATEFINISHED,
                         PREFIX_RATING, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_NOTE, PREFIX_CATEGORY,
-                PREFIX_PROGRESS) // make field optional here
+        if (!arePrefixesPresent(argMultimap, PREFIX_TITLE, PREFIX_AUTHOR, PREFIX_CATEGORY) // make field optional here
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
-
         Title title = ParserUtil.parseTitle(argMultimap.getValue(PREFIX_TITLE).get());
         Author author = ParserUtil.parseAuthor(argMultimap.getValue(PREFIX_AUTHOR).get());
         Note note = ParserUtil.parseNote(argMultimap.getValue(PREFIX_NOTE).get());
         Category category = ParserUtil.parseCategory(argMultimap.getValue(PREFIX_CATEGORY).get());
-        Progress progress = ParserUtil.parseProgress(argMultimap.getValue(PREFIX_PROGRESS).get());
+        Progress progress;
+        if (argMultimap.getValue(PREFIX_PROGRESS).isEmpty()) {
+            try {
+                progress = ParserUtil.parseProgress(String.valueOf(Integer.parseInt(argMultimap.getValue(PREFIX_PAGE_READ).get())
+                        / Integer.parseInt(argMultimap.getValue(PREFIX_TOTAL_PAGE).get()) * 100));
+            } catch (NumberFormatException e) {
+                throw new ParseException(String.format(MESSAGE_CONSTRAINTS_FOR_PAGE, AddCommand.MESSAGE_USAGE));
+            }
+        } else {
+            progress = ParserUtil.parseProgress(argMultimap.getValue(PREFIX_PROGRESS).get());
+        }
+
         DateAdded dateAdded = ParserUtil.parseDateAdded();
         DateStarted dateStarted = ParserUtil.parseDateStarted(argMultimap.getValue(PREFIX_DATESTARTED));
         DateFinished dateFinished = ParserUtil.parseDateFinished(argMultimap.getValue(PREFIX_DATEFINISHED));

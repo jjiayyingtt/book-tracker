@@ -51,7 +51,7 @@ public class AddBookWindow extends UiPart<Stage> {
     private ChoiceBox categoryInp;
 
     @FXML
-    private ComboBox tagsInp;
+    private TextField tagsInp;
 
     @FXML
     private DatePicker datestartedInp;
@@ -137,27 +137,34 @@ public class AddBookWindow extends UiPart<Stage> {
     public void addBook() throws CommandException, ParseException {
         String title = titleInp.getText();
         String totalPage = totalPageInp.getText();
-        String author = authorInp.getText();
         String pageRead = pageReadInp.getText();
-        String category = categoryInp.getSelectionModel().getSelectedItem().toString();
-        //ObservableList<String> tags = tagsInp.getItems(); //tags doesnt work for now
-        String tag = "Hello";
+        String author = authorInp.getText();
+        String category = categoryInp.getSelectionModel().getSelectedItem().toString(); // need to show exception
+        String[] tags;
+        if (!tagsInp.getText().isEmpty()) {
+            tags = tagsInp.getText().split(",");
+        }
         LocalDate dateStarted = datestartedInp.getValue();
         LocalDate dateFinished = datefinishedInp.getValue();
         String rating = ratingInp.getText();
         String notes = notesInp.getText();
+        String bookStr;
         if (rating.isEmpty()) {
-            logic.execute("add " + PREFIX_TITLE + title  +  " " + PREFIX_AUTHOR + author  +  " " + PREFIX_NOTE + notes  +  " "
+            bookStr = "add " + PREFIX_TITLE + title  +  " " + PREFIX_AUTHOR + author  +  " " + PREFIX_NOTE + notes  +  " "
                     + PREFIX_CATEGORY + category  +  " "
-                    + PREFIX_PROGRESS + Integer.parseInt(pageRead) / Integer.parseInt(totalPage) * 100  +  " "
-                    + PREFIX_TAG + tag  +  " ");
+                    + PREFIX_PAGE_READ + pageRead  +  " "
+                    + PREFIX_TOTAL_PAGE + totalPage  +  " "
+                    + PREFIX_TAG + "tags[0]"  +  " ";
+
         } else {
-            logic.execute("add " + PREFIX_TITLE + title + " " + PREFIX_AUTHOR + author + " " + PREFIX_NOTE + notes + " "
+            bookStr = "add " + PREFIX_TITLE + title + " " + PREFIX_AUTHOR + author + " " + PREFIX_NOTE + notes + " "
                     + PREFIX_CATEGORY + category + " "
-                    + PREFIX_PROGRESS + Integer.parseInt(pageRead) / Integer.parseInt(totalPage) * 100 + " "
+                    + PREFIX_PAGE_READ + pageRead  +  " "
+                    + PREFIX_TOTAL_PAGE + totalPage  +  " "
                     + PREFIX_RATING + rating + " "
-                    + PREFIX_TAG + tag + " ");
+                    + PREFIX_TAG + "tags[0]" + " ";
         }
+        logic.execute(bookStr);
     }
 
 }
