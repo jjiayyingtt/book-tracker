@@ -8,6 +8,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import tracker.commons.core.LogsCenter;
+import tracker.logic.Logic;
+import tracker.logic.LogicManager;
+import tracker.logic.commands.exceptions.CommandException;
+import tracker.logic.parser.exceptions.ParseException;
+import tracker.model.book.Book;
+
+import static tracker.logic.parser.CliSyntax.*;
+import static tracker.logic.parser.CliSyntax.PREFIX_TAG;
 
 /**
  * Controller for a help page
@@ -25,9 +33,10 @@ public class AddBookWindow extends UiPart<Stage> {
     private static String COMPANIES;
     private static String TAGS;
 
+    private Logic logic;
+
     @FXML
     private TextField titleInp;
-
 
     @FXML
     private TextField totalPageInp;
@@ -68,8 +77,9 @@ public class AddBookWindow extends UiPart<Stage> {
     /**
      * Creates a new HelpWindow.
      */
-    public AddBookWindow() {
+    public AddBookWindow(Logic logic) {
         this(new Stage());
+        this.logic = logic;
     }
 
     /**
@@ -124,18 +134,30 @@ public class AddBookWindow extends UiPart<Stage> {
         getRoot().requestFocus();
     }
 
-    public void addBook() {
+    public void addBook() throws CommandException, ParseException {
         String title = titleInp.getText();
         String totalPage = totalPageInp.getText();
         String author = authorInp.getText();
         String pageRead = pageReadInp.getText();
         String category = categoryInp.getSelectionModel().getSelectedItem().toString();
         //ObservableList<String> tags = tagsInp.getItems(); //tags doesnt work for now
+        String tag = "Hello";
         LocalDate dateStarted = datestartedInp.getValue();
         LocalDate dateFinished = datefinishedInp.getValue();
         String rating = ratingInp.getText();
         String notes = notesInp.getText();
-
+        if (rating.isEmpty()) {
+            logic.execute("add " + PREFIX_TITLE + title  +  " " + PREFIX_AUTHOR + author  +  " " + PREFIX_NOTE + notes  +  " "
+                    + PREFIX_CATEGORY + category  +  " "
+                    + PREFIX_PROGRESS + Integer.parseInt(pageRead) / Integer.parseInt(totalPage) * 100  +  " "
+                    + PREFIX_TAG + tag  +  " ");
+        } else {
+            logic.execute("add " + PREFIX_TITLE + title + " " + PREFIX_AUTHOR + author + " " + PREFIX_NOTE + notes + " "
+                    + PREFIX_CATEGORY + category + " "
+                    + PREFIX_PROGRESS + Integer.parseInt(pageRead) / Integer.parseInt(totalPage) * 100 + " "
+                    + PREFIX_RATING + rating + " "
+                    + PREFIX_TAG + tag + " ");
+        }
     }
 
 }

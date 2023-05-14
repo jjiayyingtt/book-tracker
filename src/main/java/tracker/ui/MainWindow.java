@@ -85,7 +85,7 @@ public class MainWindow extends UiPart<Stage> {
         //setAccelerators();
 
         helpWindow = new HelpWindow();
-        addBookWindow = new AddBookWindow();
+        addBookWindow = new AddBookWindow(logic);
     }
 
     public Stage getPrimaryStage() {
