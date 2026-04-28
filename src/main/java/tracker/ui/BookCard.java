@@ -14,7 +14,7 @@ import tracker.model.book.Book;
  */
 public class BookCard extends UiPart<Region> {
 
-    private static final String FXML = "BookListCard.fxml"; // test comment
+    private static final String FXML = "BookListCard.fxml"; // updated for PR test
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
